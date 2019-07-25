@@ -1,0 +1,13 @@
+/.git
+/.idea
+/.vagrant
+/.buildpath
+/.project
+/.settings
+/.metadata
+/.cache
+/.zfproject.xml
+/vendor
+.DS_Store
+composer.phar
+composer.lock

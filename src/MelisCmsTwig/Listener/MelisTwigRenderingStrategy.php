@@ -8,19 +8,20 @@
  *
  */
 
-namespace MelisEngine\Listener;
+namespace MelisCmsTwig\Listener;
 
 
 use Twig\Environment as Twig_Environment;
 use Twig\Error\LoaderError as Twig_Error_Loader;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
-use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
-use Zend\View\Model\ViewModel;
 
 class MelisTwigRenderingStrategy implements ListenerAggregateInterface
 {
+    private const VIEW_MODEL = 'Zend\View\Model\ViewModel';
+    private const TWIG_TEMPLATE = 'TWG';
+
     /**
      * @var \Zend\Stdlib\CallbackHandler[]
      */
@@ -63,37 +64,38 @@ class MelisTwigRenderingStrategy implements ListenerAggregateInterface
     }
 
     /**
-     * Renders the view
+     * Renders the "twigged" view of a page
+     * whose template type is Twig - "TWG"
      *
      * @param MvcEvent $e
-     * @return mixed|null|string|\Zend\Stdlib\ResponseInterface
+     * @return null|\Zend\Stdlib\ResponseInterface
      */
     public function render(MvcEvent $e)
     {
-        $result = $e->getResult();
-        if ($result instanceof Response) {
-            return $result;
-        }
-
-        $response = $e->getResponse();
         $viewModel = $e->getViewModel();
-        if (!$viewModel instanceof ViewModel) {
-            return null;
+        if (!empty($viewModel) && get_class($viewModel) === self::VIEW_MODEL && $viewModel->getVariables()) {
+            /** Get Page's type of template */
+            $template = $viewModel->getVariables()->offsetGet("pageTemplate") ?? null;
+
+            if (!empty($template) && $template->tpl_type === self::TWIG_TEMPLATE) {
+                try {
+                    /** render using Twig */
+                    $result = $this->getEnvironment()->render(
+                        $viewModel->getTemplate() . $this->getSuffix(),
+                        (array)$viewModel->getVariables()
+                    );
+                } catch (Twig_Error_Loader $e) {
+                    return null;
+                }
+
+                $response = $e->getResponse();
+                $response->setContent($result);
+
+                return $response;
+            }
         }
 
-        try {
-            /** render using Twig */
-            $result = $this->getEnvironment()->render(
-                $viewModel->getTemplate() . $this->getSuffix(),
-                (array)$viewModel->getVariables()
-            );
-        } catch (Twig_Error_Loader $e) {
-            return null;
-        }
-
-        $response->setContent($result);
-
-        return $response;
+        return null;
     }
 
     /**

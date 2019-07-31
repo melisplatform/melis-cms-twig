@@ -9,6 +9,7 @@
 
 namespace MelisCmsTwig;
 
+use MelisCmsTwig\Listener\MelisTwigRenderingStrategy;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Session\Container;
@@ -22,12 +23,16 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager = $e->getApplication()->getEventManager();
+        /** @var \Zend\Mvc\MvcEvent $e */
+        $application = $e->getApplication();
+        $eventManager = $application->getEventManager();
+        $serviceManager = $application->getServiceManager();
+        $environment = $serviceManager->get('MelisTwigEnvironment');
+
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-        $sm = $e->getApplication()->getServiceManager();
 
-        $routeMatch = $sm->get('router')->match($sm->get('request'));
+        $routeMatch = $serviceManager->get('router')->match($serviceManager->get('request'));
         $this->createTranslations($e, $routeMatch);
 
         /**
@@ -37,9 +42,11 @@ class Module
 //        $options = $sm->get('');
 //        $environment = $sm->get('Twig_Environment');
 //        foreach ($options->getExtensions() as $extension) {
-//
 //            $environment->addExtension($extension);
 //        }
+
+        /** attach Listener(s) */
+        $eventManager->attach(new MelisTwigRenderingStrategy());
     }
 
     public function createTranslations($e, $routeMatch)
@@ -91,9 +98,7 @@ class Module
         $config = [];
         $configFiles = [
             include __DIR__ . '/../config/module.config.php',
-//            include __DIR__ . '/../config/app.tools.php',
-//            include __DIR__ . '/../config/app.forms.php',
-//            include __DIR__ . '/../config/app.interface.php',
+            include __DIR__ . '/../config/twig.config.php',
         ];
 
         foreach ($configFiles as $file) {

@@ -1,6 +1,6 @@
 {
   "name": "melisplatform/melis-cms-twig",
-  "description": "Melis platform alternative templating engine",
+  "description": "Melis platform's alternative templating engine",
   "type": "melisplatform-module",
   "license": "OSL-3.0",
   "homepage": "https://github.com/melisplatform/melis-cms-twig",
@@ -21,6 +21,7 @@
   "keywords": [
     "cms",
     "melis",
+    "twig",
     "zf2",
     "module"
   ],

@@ -14,36 +14,7 @@ return [
                 'options' => [
                     'route' => '/melis[/]',
                 ],
-                'child_routes' => [
-//                    'application-MelisCmsTwig' => [
-//                        'type' => 'Literal',
-//                        'options' => [
-//                            'route' => 'MelisCmsTwig',
-//                            'defaults' => [
-//                                '__NAMESPACE__' => 'MelisCmsTwig\Controller',
-//                                'controller' => 'MelisCmsTwigTab',
-//                                'action' => 'test',
-//                            ],
-//                        ],
-//                        // this route will be accessible in the browser by browsing
-//                        // www.domain.com/melis/MelisCmsComments/controller/action
-//                        'may_terminate' => true,
-//                        'child_routes' => [
-//                            'default' => [
-//                                'type' => 'Segment',
-//                                'options' => [
-//                                    'route' => '/[:controller[/:action]]',
-//                                    'constraints' => [
-//                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                    ],
-//                                    'defaults' => [
-//                                    ],
-//                                ],
-//                            ],
-//                        ],
-//                    ],
-                ],
+                'child_routes' => [],
             ],
         ],
     ],
@@ -53,41 +24,30 @@ return [
     ],
 
     'service_manager' => [
-        'invokables' => [
-
-        ],
+        'invokables' => [],
         'aliases' => [
             'translator' => 'MvcTranslator',
+            'MelisTwigEnvironment' => 'MelisCmsTwig\Environment',
         ],
         'factories' => [
+            'MelisCmsTwig\LoaderChain' => 'MelisCmsTwig\Factory\LoaderChainFactory',
+            'MelisCmsTwig\TemplateMap' => 'MelisCmsTwig\Factory\MapLoaderFactory',
+//            'MelisCmsTwig\TemplatePathStack' => 'MelisCmsTwig\Factory\StackLoaderFactory',
+
+            'MelisCmsTwig\Environment' => 'MelisCmsTwig\Factory\EnvironmentFactory',
             'MelisCmsTwig\ModuleOptions' => 'MelisCmsTwig\Factory\ModuleOptionsFactory',
-            
-            //service
-//            'MelisCmsCommentsService' => 'MelisCmsComments\Service\Factory\MelisCmsCommentsServiceFactory',
-//            'MelisCmsCommentsTable' => 'MelisCmsComments\Model\Tables\Factory\MelisCmsCommentsTableFactory',
         ],
     ],
 
     'controllers' => [
-        'invokables' => [
-//            'MelisCmsComments\Controller\MelisCmsCommentsTab' => 'MelisCmsComments\Controller\MelisCmsCommentsTabController',
-//            'MelisCmsComments\Controller\Dashboard' => 'MelisCmsComments\Controller\DashboardController',
-//            'MelisCmsComments\Controller\MelisCmsCommentsViewHelper' => 'MelisCmsComments\Controller\MelisCmsCommentsViewHelperController',
-        ],
+        'invokables' => [],
     ],
     'controller_plugins' => [
-        'invokables' => [
-//            'MelisCmsCommentsPlugin' => 'MelisCmsComments\Controller\Plugin\MelisCmsCommentsPlugin',
-
-            // Dashboard plugins
-//            'MelisCmsCommentsLatestCommentsPlugin' => 'MelisCmsComments\Controller\DashboardPlugins\MelisCmsCommentsLatestCommentsPlugin',
-        ]
+        'invokables' => [],
     ],
 
     'form_elements' => [
-        'factories' => [
-
-        ],
+        'factories' => [],
     ],
     'asset_manager' => [
         'resolver_configs' => [

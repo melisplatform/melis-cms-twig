@@ -10,7 +10,7 @@
 
 namespace MelisCmsTwig\Factory;
 
-use \Twig\Environment as Environment;
+use RuntimeException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,7 +20,7 @@ class EnvironmentFactory implements FactoryInterface
     /**
      * Create service
      * @param ServiceLocatorInterface $serviceLocator
-     * @return Environment
+     * @return \Twig\Environment
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -28,8 +28,17 @@ class EnvironmentFactory implements FactoryInterface
         $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
         $envClass = $options->getEnvironmentClass();
 
+        if (!$serviceLocator->has($options->getEnvironmentLoader())) {
+            throw new RuntimeException(
+                sprintf(
+                    'Loader with alias "%s" could not be found!',
+                    $options->getEnvironmentLoader()
+                )
+            );
+        }
+
         /** @var \Twig\Environment $env */
-        $env = new $envClass(null, $options->getEnvironmentOptions());
+        $env = new $envClass($serviceLocator->get($options->getEnvironmentLoader()), $options->getEnvironmentOptions());
 
         return $env;
     }

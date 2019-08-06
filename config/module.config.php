@@ -24,7 +24,9 @@ return [
     ],
 
     'service_manager' => [
-        'invokables' => [],
+        'invokables' => [
+
+        ],
         'aliases' => [
             'translator' => 'MvcTranslator',
             'MelisTwigEnvironment' => 'MelisCmsTwig\Environment',
@@ -32,7 +34,7 @@ return [
         'factories' => [
             'MelisCmsTwig\LoaderChain' => 'MelisCmsTwig\Factory\LoaderChainFactory',
             'MelisCmsTwig\TemplateMap' => 'MelisCmsTwig\Factory\MapLoaderFactory',
-//            'MelisCmsTwig\TemplatePathStack' => 'MelisCmsTwig\Factory\StackLoaderFactory',
+            'MelisCmsTwig\TemplatePathStack' => 'MelisCmsTwig\Factory\StackLoaderFactory',
 
             'MelisCmsTwig\Environment' => 'MelisCmsTwig\Factory\EnvironmentFactory',
             'MelisCmsTwig\ModuleOptions' => 'MelisCmsTwig\Factory\ModuleOptionsFactory',

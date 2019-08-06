@@ -15,6 +15,7 @@ use Twig\Environment as Twig_Environment;
 use Twig\Error\LoaderError as Twig_Error_Loader;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
+use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 
 class MelisTwigRenderingStrategy implements ListenerAggregateInterface
@@ -72,16 +73,24 @@ class MelisTwigRenderingStrategy implements ListenerAggregateInterface
      */
     public function render(MvcEvent $e)
     {
+        $result = $e->getResult();
+        if ($result instanceof Response) {
+            return $result;
+        }
+
         $viewModel = $e->getViewModel();
         if (!empty($viewModel) && get_class($viewModel) === self::VIEW_MODEL && $viewModel->getVariables()) {
             /** Get Page's type of template */
             $template = $viewModel->getVariables()->offsetGet("pageTemplate") ?? null;
 
             if (!empty($template) && $template->tpl_type === self::TWIG_TEMPLATE) {
+                $sm = $e->getTarget()->getServiceManager();
+                $env = $sm->get('MelisCmsTwig\Environment');
+
                 try {
                     /** render using Twig */
-                    $result = $this->getEnvironment()->render(
-                        $viewModel->getTemplate() . $this->getSuffix(),
+                    $result = $env->render(
+                        $viewModel->getTemplate(),
                         (array)$viewModel->getVariables()
                     );
                 } catch (Twig_Error_Loader $e) {
@@ -96,24 +105,5 @@ class MelisTwigRenderingStrategy implements ListenerAggregateInterface
         }
 
         return null;
-    }
-
-    /**
-     * @return Twig_Environment
-     */
-    public function getEnvironment()
-    {
-        return $this->environment;
-    }
-
-    /**
-     * @param Twig_Environment $environment
-     * @return MelisTwigRenderingStrategy
-     */
-    public function setEnvironment(Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-
-        return $this;
     }
 }

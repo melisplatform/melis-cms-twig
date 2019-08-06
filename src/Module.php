@@ -26,24 +26,8 @@ class Module
         /** @var \Zend\Mvc\MvcEvent $e */
         $application = $e->getApplication();
         $eventManager = $application->getEventManager();
-        $serviceManager = $application->getServiceManager();
-        $environment = $serviceManager->get('MelisTwigEnvironment');
-
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-
-        $routeMatch = $serviceManager->get('router')->match($serviceManager->get('request'));
-        $this->createTranslations($e, $routeMatch);
-
-        /**
-         * Set-up extension(s), if there exists any.
-         * @var  $options
-         */
-//        $options = $sm->get('');
-//        $environment = $sm->get('Twig_Environment');
-//        foreach ($options->getExtensions() as $extension) {
-//            $environment->addExtension($extension);
-//        }
 
         /** attach Listener(s) */
         $eventManager->attach(new MelisTwigRenderingStrategy());

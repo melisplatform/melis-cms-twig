@@ -11,11 +11,11 @@
 namespace MelisCmsTwig\Factory;
 
 
-use MelisCmsTwig\MapLoader;
+use Twig_Loader_Filesystem;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MapLoaderFactory implements FactoryInterface
+class StackLoaderFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -26,17 +26,12 @@ class MapLoaderFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /**
-         * @var \MelisCmsTwig\MapLoader $templateMap
-         * @var \Zend\View\Resolver\TemplateMapResolver $zfTemplateMap
+         * @var \Zend\View\Resolver\TemplatePathStack $zfTemplateStack
+         * @var Twig_Loader_Filesystem $templateStack
          */
-        $zfTemplateMap = $serviceLocator->get('ViewTemplateMapResolver');
-        $templateMap = new MapLoader();
+        $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
+        $templateStack = new Twig_Loader_Filesystem($zfTemplateStack->getPaths()->toArray());
 
-        /** Mapping files loaded by ZendFramework's Template Resolver */
-        foreach ($zfTemplateMap as $name => $path) {
-            $templateMap->add($name, $path);
-        }
-
-        return $templateMap;
+        return $templateStack;
     }
 }

@@ -14,7 +14,7 @@ return [
                 /**
                  * Optional class name override for instantiating the Twig Environment in the factory.
                  */
-                'environment_class' => 'MelisTwigEnvironment',
+                'environment_class' => 'Twig_Environment',
 
                 /**
                  * Options that are passed directly to the Twig_Environment.
@@ -22,32 +22,13 @@ return [
                 'environment_options' => array(),
 
                 /**
-                 * Service manager alias of any additional loaders to register with the chain. The default
-                 * has the TemplateMap and TemplatePathStack registered. This setting only has an effect
-                 * if the `environment_loader` key above is set to ZfcTwigLoaderChain.
+                 * Service manager alias of any additional loaders to register with the chain.
                  */
                 'loader_chain' => array(
                     'MelisCmsTwig\TemplateMap',
-//                    'MelisCmsTwig\TemplatePathStack'
+                    'MelisCmsTwig\TemplatePathStack',
                 ),
-
             ],
-//            'ressources' => [
-//                'js' => [],
-//                'css' => [],
-//                'build' => [
-//                    'disable_bundle' => false,
-//                    // lists of assets that will be loaded in the layout
-//                    'css' => [
-//                        //'/MelisCmsTwig/build/css/bundle.css',
-//                    ],
-//                    'js' => [
-//                        //'/MelisCmsTwig/build/js/bundle.js',
-//                    ]
-//                ]
-//            ],
-//            'datas' => [],
-//            'interface' => [],
         ],
     ],
 ];

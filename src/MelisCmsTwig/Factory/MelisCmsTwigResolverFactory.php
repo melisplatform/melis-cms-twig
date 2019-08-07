@@ -11,28 +11,22 @@
 namespace MelisCmsTwig\Factory;
 
 
-use Twig\Loader\FilesystemLoader as Twig_Loader_Filesystem;
+use MelisCmsTwig\MelisCmsTwigResolver;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class StackLoaderFactory implements FactoryInterface
+class MelisCmsTwigResolverFactory implements FactoryInterface
 {
-    private const DEFAULT_TEMPLATE_STACK = '/../view';
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return MelisCmsTwigResolver
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /**
-         * @var \Zend\View\Resolver\TemplatePathStack $zfTemplateStack
-         * @var Twig_Loader_Filesystem $templateStack
-         */
-        $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
-        $templateStack = new Twig_Loader_Filesystem($zfTemplateStack->getPaths()->toArray());
+        $resolver = new MelisCmsTwigResolver($serviceLocator->get('Twig_Environment'));
 
-        return $templateStack;
+        return $resolver;
     }
 }

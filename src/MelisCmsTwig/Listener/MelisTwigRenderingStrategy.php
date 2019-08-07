@@ -13,6 +13,7 @@ namespace MelisCmsTwig\Listener;
 
 use Twig\Environment as Twig_Environment;
 use Twig\Error\LoaderError as Twig_Error_Loader;
+use Twig\Loader\FilesystemLoader;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Http\Response;
@@ -84,23 +85,31 @@ class MelisTwigRenderingStrategy implements ListenerAggregateInterface
             $template = $viewModel->getVariables()->offsetGet("pageTemplate") ?? null;
 
             if (!empty($template) && $template->tpl_type === self::TWIG_TEMPLATE) {
-                $sm = $e->getTarget()->getServiceManager();
-                $env = $sm->get('MelisCmsTwig\Environment');
+                $ds = DIRECTORY_SEPARATOR;
+
+                /** Convert CamelCase -> dash-separated-string (i.e. MelisDemoCms -> melis-demo-cms) */
+                $folder = lcfirst($template->tpl_zf2_website_folder);
+                $pieces = preg_split('/(?=[A-Z])/', $folder);
+                $folder = strtolower(implode("-", $pieces));
+
+                $path = getcwd() . $ds . "vendor$ds" . "melisplatform$ds" . "$folder$ds" . "view$ds" . "$folder$ds" . strtolower($template->tpl_zf2_controller);
+
+                /** @var Twig_Environment $env */
+                $loader = new FilesystemLoader($path);
+                $env = new Twig_Environment($loader);
 
                 try {
                     /** render using Twig */
                     $result = $env->render(
-                        $viewModel->getTemplate(),
+                        $template->tpl_zf2_action,
                         (array)$viewModel->getVariables()
                     );
                 } catch (Twig_Error_Loader $e) {
                     return null;
                 }
+                $e->getResponse()->setContent($result);
 
-                $response = $e->getResponse();
-                $response->setContent($result);
-
-                return $response;
+                return $e->getResponse()->getContent();
             }
         }
 

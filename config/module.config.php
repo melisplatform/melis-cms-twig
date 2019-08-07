@@ -62,12 +62,8 @@ return [
         'display_not_found_reason' => true,
         'display_exceptions' => true,
         'doctype' => 'HTML5',
-        'template_map' => [
-
-        ],
-        'template_path_stack' => [
-            __DIR__ . '/../view',
-        ],
+        'template_map' => [],
+        'template_path_stack' => [],
         'strategies' => [
             'ViewJsonStrategy',
         ],

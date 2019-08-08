@@ -11,12 +11,11 @@
 namespace MelisCmsTwig\Factory;
 
 
-use MelisCmsTwig\StackLoader;
+use MelisCmsTwig\Listener\MelisCmsTwigStrategyListener;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Resolver\TemplatePathStack;
 
-class StackLoaderFactory implements FactoryInterface
+class StrategyFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -26,10 +25,6 @@ class StackLoaderFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var TemplatePathStack $zfTemplateStack */
-        $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
-        $templateStack = new StackLoader($zfTemplateStack->getPaths()->toArray());
-
-        return $templateStack;
+        return new MelisCmsTwigStrategyListener($serviceLocator->get('MelisCmsTwigRenderer'));
     }
 }

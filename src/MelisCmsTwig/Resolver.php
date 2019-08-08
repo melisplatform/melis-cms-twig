@@ -12,10 +12,11 @@ namespace MelisCmsTwig;
 
 
 use Twig\Environment as Twig_Environment;
+use Twig\TemplateWrapper;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 
-class MelisCmsTwigResolver implements ResolverInterface
+class Resolver implements ResolverInterface
 {
     /**
      * @var Twig_Environment
@@ -23,7 +24,7 @@ class MelisCmsTwigResolver implements ResolverInterface
     protected $environment;
 
     /**
-     * MelisCmsTwigResolver constructor.
+     * Resolver constructor.
      *
      * @param Twig_Environment $environment
      */
@@ -36,10 +37,10 @@ class MelisCmsTwigResolver implements ResolverInterface
      * Resolve a template/pattern name to a resource the renderer can consume
      * @param string $name
      * @param RendererInterface|null $renderer
-     * @return \Twig\Template
+     * @return TemplateWrapper
      */
     public function resolve($name, RendererInterface $renderer = null)
     {
-        return $this->environment->loadTemplate($name);
+        return $this->environment->load($name);
     }
 }

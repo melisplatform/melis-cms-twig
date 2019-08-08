@@ -20,16 +20,16 @@ class LoaderChainFactory implements FactoryInterface
 {
     /**
      * Create service
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return Twig_Loader_Chain
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var \MelisCmsTwig\ModuleOptions $options */
         $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
-        $chain = new Twig_Loader_Chain();
 
+        /** Setup Loader */
+        $chain = new Twig_Loader_Chain();
         foreach ($options->getLoaderChain() as $loader) {
             if (!is_string($loader) || !$serviceLocator->has($loader)) {
                 throw new InvalidArgumentException('Loaders should be a service manager alias.');

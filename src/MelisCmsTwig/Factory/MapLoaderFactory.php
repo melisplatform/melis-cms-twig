@@ -21,7 +21,7 @@ class MapLoaderFactory implements FactoryInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return MapLoader
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -34,6 +34,11 @@ class MapLoaderFactory implements FactoryInterface
 
         /** Mapping files loaded by ZendFramework's Template Resolver */
         foreach ($zfTemplateMap as $name => $path) {
+            /**
+             * OPTIONAL: Add a condition whether or not to add a template
+             *  ex. Only templates whose file extension is ".twig"
+             *      if ($Suffix == pathinfo($path, PATHINFO_EXTENSION))
+             */
             $templateMap->add($name, $path);
         }
 

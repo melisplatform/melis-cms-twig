@@ -6,10 +6,10 @@ return [
             'conf' => [
                 /**
                  * Service manager alias of the loader to use with MelisCmsTwig. By default, it uses
-                 * the included MelisCmsTwig\LoaderChain which includes a copy of ZF2's TemplateMap and
+                 * the included MelisCmsTwigLoaderChain which includes a copy of ZF2's TemplateMap and
                  * TemplatePathStack.
                  */
-                'environment_loader' => 'MelisCmsTwig\LoaderChain',
+                'environment_loader' => 'MelisCmsTwigLoaderChain',
 
                 /**
                  * Optional class name override for instantiating the Twig Environment in the factory.
@@ -22,11 +22,13 @@ return [
                 'environment_options' => array(),
 
                 /**
-                 * Service manager alias of any additional loaders to register with the chain.
+                 * Service manager alias of any additional loaders to register with the chain. The default
+                 * has the TemplateMap and TemplatePathStack registered. This setting only has an effect
+                 * if the `environment_loader` key above is set to MelisCmsTwigLoaderChain.
                  */
                 'loader_chain' => array(
-                    'MelisCmsTwig\TemplateMap',
-                    'MelisCmsTwig\TemplatePathStack',
+                    'MelisCmsTwigTemplateMap',
+                    'MelisCmsTwigTemplatePathStack',
                 ),
             ],
         ],

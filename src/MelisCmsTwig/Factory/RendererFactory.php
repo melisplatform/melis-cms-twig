@@ -8,16 +8,16 @@
  *
  */
 
-
 namespace MelisCmsTwig\Factory;
 
 
-use MelisCmsTwig\MelisCmsTwigRenderer;
+use MelisCmsTwig\Renderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MelisCmsTwigRendererFactory implements FactoryInterface
+class RendererFactory implements FactoryInterface
 {
+
     /**
      * Create service
      *
@@ -26,17 +26,15 @@ class MelisCmsTwigRendererFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /**
-         * @var $options
-         * @var
-         * @var \MelisCmsTwig\MelisCmsTwigRenderer $renderer
-         */
+        /** @var \MelisCmsTwig\ModuleOptions $options */
         $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
-        $view = $serviceLocator->get('Zend\View\View');
-        $chain = $serviceLocator->get('MelisCmsTwig\LoaderChain');
-        $env = $serviceLocator->get('MelisCmsTwig\Environment');
-        $resolver = $serviceLocator->get('MelisCmsTwig\Resolver');
-        $renderer = new MelisCmsTwigRenderer($view, $chain, $env, $resolver);
+
+        $renderer = new Renderer(
+            $serviceLocator->get('Zend\View\View'),
+            $serviceLocator->get('Twig_Loader_Chain'),
+            $serviceLocator->get('Twig_Environment'),
+            $serviceLocator->get('MelisCmsTwig\Resolver')
+        );
 
         $renderer->canRenderTrees($options->getDisableZfmodel());
 

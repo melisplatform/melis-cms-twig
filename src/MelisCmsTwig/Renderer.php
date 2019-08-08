@@ -20,38 +20,26 @@ use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\View;
 
-class MelisCmsTwigRenderer implements RendererInterface, TreeRendererInterface
+class Renderer implements RendererInterface, TreeRendererInterface
 {
     /**
-     * @var Twig_Environment
+     * @var  $environment
+     * @var Twig_Loader_Chain $loader
+     * @var Resolver $resolver
+     * @var View $view
+     * @var bool $canRenderTrees
      */
     protected $environment;
-
-    /**
-     * @var Twig_Loader_Chain
-     */
     protected $loader;
-
-    /**
-     * @var ResolverInterface
-     */
     protected $resolver;
-
-    /**
-     * @var \Zend\View\View
-     */
     protected $view;
-
-    /**
-     * @var bool
-     */
     protected $canRenderTrees = true;
 
     public function __construct(
         View $view,
         Twig_Loader_Chain $loader,
         Twig_Environment $environment,
-        ResolverInterface $resolver
+        Resolver $resolver
     )
     {
         $this->environment = $environment;
@@ -64,32 +52,13 @@ class MelisCmsTwigRenderer implements RendererInterface, TreeRendererInterface
      * Set the resolver used to map a template name to a resource the renderer may consume.
      *
      * @param  ResolverInterface $resolver
-     * @return MelisCmsTwigRenderer
+     * @return Renderer
      */
     public function setResolver(ResolverInterface $resolver)
     {
         $this->resolver = $resolver;
 
         return $this;
-    }
-
-    /**
-     * Can the template be rendered?
-     *
-     * @param $name
-     * @return bool|mixed
-     */
-    public function canRender($name)
-    {
-        return $this->loader->exists($name);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function canRenderTrees()
-    {
-        return $this->canRenderTrees;
     }
 
     /**
@@ -152,9 +121,28 @@ class MelisCmsTwigRenderer implements RendererInterface, TreeRendererInterface
             }
         }
 
-        /** @var \Twig_Template $template */
+        /** @var \Twig\Template $template */
         $template = $this->resolver->resolve($nameOrModel, $this);
 
         return $template->render((array)$values);
+    }
+
+    /**
+     * Can the template be rendered?
+     *
+     * @param $name
+     * @return bool|mixed
+     */
+    public function canRender($name)
+    {
+        return $this->loader->exists($name);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function canRenderTrees()
+    {
+        return $this->canRenderTrees;
     }
 }

@@ -14,14 +14,26 @@ namespace MelisCmsTwig\Listener;
 use MelisCmsTwig\Renderer;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
+use Zend\View\Model\ViewModel;
 use Zend\View\ViewEvent;
 
 class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
 {
-    /** @var \Zend\Stdlib\CallbackHandler[] */
-    protected $listeners = [];
+    private const TWIG_TEMPLATE = 'TWG';
+    private const UPPERCASE = '/(?=[A-Z])/';
+    private const HYPHEN = '-';
 
-    /** @var  Renderer */
+    /**
+     * Used inside a view file/script to refer to the page's default layout name
+     *  Ex. {% extends baseTemplate %}
+     */
+    private const DEFAULT_LAYOUT_VAR_NAME = 'baseTemplate';
+
+    /**
+     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var  Renderer
+     */
+    protected $listeners = [];
     protected $renderer;
 
     public function __construct(Renderer $renderer)
@@ -52,7 +64,10 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
      */
     public function detach(EventManagerInterface $events)
     {
-
+        foreach ($this->listeners as $index => $listener) {
+            $events->detach($listener);
+            unset($this->listeners[$index]);
+        }
     }
 
     /**
@@ -63,15 +78,54 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
      */
     public function selectRenderer(ViewEvent $e)
     {
-        $template = $e->getModel()->getTemplate();
-        if ($this->renderer->canRender($e->getModel()->getTemplate())) {
+        $view = $e->getModel();
+        $viewVars = $view->getVariables();
+
+        if (empty($viewVars) || !method_exists($viewVars, 'offsetGet')) {
+            return false;
+        } else {
+            $pageTemplate = $viewVars->offsetGet("pageTemplate");
             /**
-             *
-             * ADDITIONAL CHECKING GOES HERE:
-             *  CHECK IF TEMPLATE TYPE IS 'TWG'
-             *
+             * Check for Twig Template ("TWG" template type)
              */
-            return $this->renderer;
+            if (!empty($pageTemplate->tpl_type) && $pageTemplate->tpl_type === self::TWIG_TEMPLATE) {
+                if ($this->renderer->canRender($view->getTemplate())) {
+                    /**
+                     * Get the "Requested View" (i.e. module/controller/action)
+                     * using the PageTemplate's site module (hyphen-separated-format, ex. melis-demo-cms)
+                     */
+                    $pageSite = preg_split(self::UPPERCASE, $pageTemplate->tpl_zf2_website_folder, -1, PREG_SPLIT_NO_EMPTY);
+                    $pageSite = strtolower(implode(self::HYPHEN, $pageSite));
+
+                    $requestedView = null;
+                    foreach ($view->getChildren() as $child) {
+                        if (is_int(strpos($child->getTemplate(), $pageSite))) {
+                            $requestedView = $child; // Renamed "Child View" to "Requested View" for readability
+                            break;
+                        }
+                        //else detach listeners for this child
+                    }
+
+                    if (!empty($requestedView) && $this->renderer->canRender($requestedView->getTemplate())) {
+                        /**
+                         * Do "The Swap"
+                         *
+                         * - Set the Page Template's layout as a ViewModel variable self::DEFAULT_LAYOUT_VAR_NAME,
+                         * this template will be extended using Twig's {% extends %}.
+                         *
+                         * - Set the "Requested View" (i.e. module/controller/action) as the model's template
+                         */
+                        $newView = new ViewModel();
+                        $newView->setVariable(self::DEFAULT_LAYOUT_VAR_NAME, $view->getTemplate());
+                        $newView->setVariables($requestedView->getVariables());
+                        $newView->setTemplate($requestedView->getTemplate());
+
+                        $e->setModel($newView);
+                    }
+
+                    return $this->renderer;
+                }
+            }
         }
 
         return false;
@@ -89,9 +143,7 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
         if ($renderer !== $this->renderer) {
             return;
         }
-        $result = $e->getResult();
-        $response = $e->getResponse();
 
-        $response->setContent($result);
+        $e->getResponse()->setContent($e->getResult());
     }
 }

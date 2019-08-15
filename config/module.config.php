@@ -29,11 +29,11 @@ return [
             'translator' => 'MvcTranslator',
 
             'MelisCmsTwigStrategy' => 'MelisCmsTwig\Listener\MelisCmsTwigStrategyListener',
-            'MelisCmsTwigRenderer' => 'MelisCmsTwig\Renderer',
+            'MelisCmsTwigRenderer' => 'MelisCmsTwigRendererFactory',
             'MelisCmsTwigLoaderChain' => 'Twig_Loader_Chain',
             'MelisCmsTwigTemplateMap' => 'MelisCmsTwig\MapLoader',
             'MelisCmsTwigTemplatePathStack' => 'MelisCmsTwig\StackLoader',
-            'MelisCmsTwigResolver' => 'MelisCmsTwig\Resolver',
+            'MelisCmsTwigResolver' => 'MelisCmsTwigResolverFactory',
         ],
         'factories' => [
             'MelisCmsTwig\Listener\MelisCmsTwigStrategyListener' => 'MelisCmsTwig\Factory\StrategyFactory',
@@ -45,8 +45,8 @@ return [
             'MelisCmsTwig\MapLoader' => 'MelisCmsTwig\Factory\MapLoaderFactory',
             'MelisCmsTwig\StackLoader' => 'MelisCmsTwig\Factory\StackLoaderFactory',
 
-            'MelisCmsTwig\Renderer' => 'MelisCmsTwig\Factory\RendererFactory',
-            'MelisCmsTwig\Resolver' => 'MelisCmsTwig\Factory\TwigResolverFactory',
+            'MelisCmsTwigRendererFactory' => 'MelisCmsTwig\Factory\RendererFactory',
+            'MelisCmsTwigResolverFactory' => 'MelisCmsTwig\Factory\TwigResolverFactory',
         ],
     ],
 
@@ -75,7 +75,8 @@ return [
         'template_path_stack' => [],
         'strategies' => [
             /**
-             * Register the view strategy with the view manager. This is required!
+             * Placing the value: "MelisCmsTwigStrategy" under "strategies" array key
+             * will enable Melis CMS Twig Rendering for Twig Templates (i.e. Template Type = "TWG")
              */
             'MelisCmsTwigStrategy'
         ],

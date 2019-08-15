@@ -36,7 +36,8 @@ class RendererFactory implements FactoryInterface
             $serviceLocator->get('MelisCmsTwig\Resolver')
         );
 
-        $renderer->canRenderTrees($options->getDisableZfmodel());
+        $renderer->setCanRenderTrees($options->getEnableTwigModel());
+        //$renderer->setHelperPluginManager($serviceLocator->get('MelisCmsTwigViewHelperManager'));
 
         return $renderer;
     }

@@ -30,6 +30,10 @@ class StackLoaderFactory implements FactoryInterface
         $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
         $templateStack = new StackLoader($zfTemplateStack->getPaths()->toArray());
 
+        /** @var \MelisCmsTwig\ModuleOptions $options */
+        $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
+        $templateStack->setDefaultSuffix($options->getSuffix());
+
         return $templateStack;
     }
 }

@@ -29,9 +29,6 @@ class EnvironmentFactory implements FactoryInterface
         $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
         $envClass = $options->getEnvironmentClass();
 
-        /** @var Environment $env - class name is retrieved from 'environment_class' key in "twig.config.php" */
-        $env = new $envClass(null, $options->getEnvironmentOptions());
-
         if (!$serviceLocator->has($options->getEnvironmentLoader())) {
             throw new RuntimeException(
                 sprintf(
@@ -40,7 +37,9 @@ class EnvironmentFactory implements FactoryInterface
                 )
             );
         }
-        $env->setLoader($serviceLocator->get($options->getEnvironmentLoader()));
+
+        /** @var Environment $env - class name is retrieved from 'environment_class' key in "twig.config.php" */
+        $env = new $envClass($serviceLocator->get($options->getEnvironmentLoader()), $options->getEnvironmentOptions());
 
         /**
          * Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).

@@ -57,7 +57,7 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var bool
      */
-    protected $disableZfmodel = true;
+    protected $enableTwigModel = true;
 
     /**
      * @var array
@@ -67,18 +67,18 @@ class ModuleOptions extends AbstractOptions
     /**
      * @return boolean
      */
-    public function getDisableZfmodel()
+    public function getEnableTwigModel()
     {
-        return $this->disableZfmodel;
+        return $this->enableTwigModel;
     }
 
     /**
-     * @param boolean $disableZfmodel
+     * @param $enableTwigModel
      * @return ModuleOptions
      */
-    public function setDisableZfmodel($disableZfmodel)
+    public function setEnableTwigModel($enableTwigModel)
     {
-        $this->disableZfmodel = $disableZfmodel;
+        $this->enableTwigModel = $enableTwigModel;
         return $this;
     }
 

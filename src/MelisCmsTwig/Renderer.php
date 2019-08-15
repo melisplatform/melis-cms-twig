@@ -103,24 +103,6 @@ class Renderer implements RendererInterface, TreeRendererInterface
             return null;
         }
 
-        if ($model && $this->canRenderTrees() && $model->hasChildren()) {
-            if (!isset($values['content'])) {
-                $values['content'] = '';
-            }
-
-            foreach ($model as $child) {
-                /** @var \Zend\View\Model\ViewModel $child */
-                if ($this->canRender($child->getTemplate())) {
-                    $template = $this->resolver->resolve($child->getTemplate(), $this);
-
-                    return $template->render((array)$child->getVariables());
-                }
-
-                $child->setOption('has_parent', true);
-                $values['content'] .= $this->view->render($child);
-            }
-        }
-
         /** @var \Twig\Template $template */
         $template = $this->resolver->resolve($nameOrModel, $this);
 
@@ -144,5 +126,16 @@ class Renderer implements RendererInterface, TreeRendererInterface
     public function canRenderTrees()
     {
         return $this->canRenderTrees;
+    }
+
+    /**
+     * @param boolean $canRenderTrees
+     * @return Renderer
+     */
+    public function setCanRenderTrees($canRenderTrees)
+    {
+        $this->canRenderTrees = $canRenderTrees;
+
+        return $this;
     }
 }

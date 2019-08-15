@@ -19,7 +19,7 @@ return [
                 /**
                  * Options that are passed directly to the Twig_Environment.
                  */
-                'environment_options' => array(),
+                'environment_options' => [],
 
                 /**
                  * Service manager alias of any additional loaders to register with the chain. The default
@@ -30,6 +30,28 @@ return [
                     'MelisCmsTwigTemplateMap',
                     'MelisCmsTwigTemplatePathStack',
                 ),
+
+                /**
+                 * Set to 'true' to use 'Twig's Inheritance Model',
+                 * instead of Zend Framework's notion of parent/child layout
+                 */
+                'enable_twig_model' => true,
+
+                /**
+                 * When enabled, the ZF2 view helpers will get pulled using a fallback renderer. This will
+                 * slightly degrade performance but must be used if you plan on using any of ZF2's view helpers.
+                 */
+//                'enable_fallback_functions' => false,
+
+                /**
+                 * Setting the template's file extension / suffix Twig will look for.
+                 *
+                 * - Used by MelisCmsTwigTemplatePathStack (or any future loaders), appended as an extension to a
+                 * templateName when searching (resolving) templates inside the FileSystem
+                 *
+                 * - or Twig's "extends": Ex. {% extends my/module/template %} -> Twig will look for template.<suffix>
+                 */
+                'suffix' => 'phtml',
             ],
         ],
     ],

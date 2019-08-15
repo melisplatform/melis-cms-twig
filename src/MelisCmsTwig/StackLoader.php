@@ -16,6 +16,37 @@ use Twig\Loader\FilesystemLoader;
 class StackLoader extends FilesystemLoader
 {
     /**
+     * Appends this suffix if the template requested does not use it.
+     *
+     * @var string
+     */
+    protected $defaultSuffix = 'phtml';
+
+    /**
+     * Set default file suffix
+     *
+     * @param  string $defaultSuffix
+     * @return StackLoader
+     */
+    public function setDefaultSuffix($defaultSuffix)
+    {
+        $this->defaultSuffix = (string) $defaultSuffix;
+        $this->defaultSuffix = ltrim($this->defaultSuffix, '.');
+
+        return $this;
+    }
+
+    /**
+     * Get default file suffix
+     *
+     * @return string
+     */
+    public function getDefaultSuffix()
+    {
+        return $this->defaultSuffix;
+    }
+
+    /**
      * @param $name
      * @param bool $throw
      * @return string
@@ -30,6 +61,12 @@ class StackLoader extends FilesystemLoader
 
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
+        }
+
+        // Ensure we have the expected file extension
+        $defaultSuffix = $this->getDefaultSuffix();
+        if (pathinfo($name, PATHINFO_EXTENSION) != $defaultSuffix) {
+            $name .= '.' . $defaultSuffix;
         }
 
         $this->validateName($name);

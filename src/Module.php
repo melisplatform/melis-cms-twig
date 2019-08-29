@@ -37,22 +37,6 @@ class Module
         $eventManager->attach(new MelisCmsTwigModifyTemplateFormListener());
     }
 
-    public function getConfig()
-    {
-        $config = [];
-        $configFiles = [
-            include __DIR__ . '/../config/module.config.php',
-            include __DIR__ . '/../config/twig.config.php',
-        ];
-
-        foreach ($configFiles as $file) {
-            $config = ArrayUtils::merge($config, $file);
-        }
-
-        return $config;
-    }
-
-
     public function createTranslations($e)
     {
         $sm = $e->getApplication()->getServiceManager();
@@ -87,6 +71,21 @@ class Module
                 $translator->addTranslationFile('phparray', $transPath);
             }
         }
+    }
+
+    public function getConfig()
+    {
+        $config = [];
+        $configFiles = [
+            include __DIR__ . '/../config/module.config.php',
+            include __DIR__ . '/../config/twig.config.php',
+        ];
+
+        foreach ($configFiles as $file) {
+            $config = ArrayUtils::merge($config, $file);
+        }
+
+        return $config;
     }
 
     public function getAutoloaderConfig()

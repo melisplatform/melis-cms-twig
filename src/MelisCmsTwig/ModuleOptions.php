@@ -74,7 +74,7 @@ class ModuleOptions extends AbstractOptions
 
     /**
      * @param $enableTwigModel
-     * @return ModuleOptions
+     * @return $this
      */
     public function setEnableTwigModel($enableTwigModel)
     {
@@ -91,8 +91,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param boolean $enableFallbackFunctions
-     * @return ModuleOptions
+     * @param $enableFallbackFunctions
+     * @return $this
      */
     public function setEnableFallbackFunctions($enableFallbackFunctions)
     {
@@ -109,8 +109,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param mixed $environmentLoader
-     * @return ModuleOptions
+     * @param $environmentLoader
+     * @return $this
      */
     public function setEnvironmentLoader($environmentLoader)
     {
@@ -127,8 +127,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param array $environmentOptions
-     * @return ModuleOptions
+     * @param $environmentOptions
+     * @return $this
      */
     public function setEnvironmentOptions($environmentOptions)
     {
@@ -145,8 +145,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param array $extensions
-     * @return ModuleOptions
+     * @param $extensions
+     * @return $this
      */
     public function setExtensions($extensions)
     {
@@ -163,8 +163,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param array $helperManager
-     * @return ModuleOptions
+     * @param $helperManager
+     * @return $this
      */
     public function setHelperManager($helperManager)
     {
@@ -181,8 +181,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param array $loaderChain
-     * @return ModuleOptions
+     * @param $loaderChain
+     * @return $this
      */
     public function setLoaderChain($loaderChain)
     {
@@ -199,8 +199,8 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param string $suffix
-     * @return ModuleOptions
+     * @param $suffix
+     * @return $this
      */
     public function setSuffix($suffix)
     {

@@ -19,7 +19,7 @@ return [
                 /**
                  * Options that are passed directly to the Twig_Environment.
                  */
-                'environment_options' => [],
+                'environment_options' => ['debug' => true],
 
                 /**
                  * Service manager alias of any additional loaders to register with the chain. The default
@@ -32,7 +32,7 @@ return [
                 ),
 
                 /**
-                 * Set to 'true' to use 'Twig's Inheritance Model',
+                 * Set to 'true' to use 'Twig's Inheritance Model'
                  * instead of Zend Framework's notion of parent/child layout
                  */
                 'enable_twig_model' => true,
@@ -41,17 +41,37 @@ return [
                  * When enabled, the ZF2 view helpers will get pulled using a fallback renderer. This will
                  * slightly degrade performance but must be used if you plan on using any of ZF2's view helpers.
                  */
-//                'enable_fallback_functions' => false,
+                'enable_fallback_functions' => true,
 
                 /**
-                 * Setting the template's file extension / suffix Twig will look for.
+                 * Twig can load *any* type of file, but Zend Framework's templates do not specify their suffix.
+                 * Which is why we set the template's file extension / suffix that Twig will look for.
                  *
                  * - Used by MelisCmsTwigTemplatePathStack (or any future loaders), appended as an extension to a
                  * templateName when searching (resolving) templates inside the FileSystem
                  *
                  * - or Twig's "extends": Ex. {% extends my/module/template %} -> Twig will look for template.<suffix>
                  */
-                'suffix' => 'phtml',
+                'suffix' => 'twig',//'phtml',
+
+                /**
+                 * Register your extensions here.
+                 * Service manager alias or fully qualified domain name of extensions.
+                 */
+                'extensions' => [
+                    'MelisCmsTwigExtension',
+                    'Twig_Extension_Debug',
+                ],
+
+                /**
+                 * MelisCmsTwig uses it's own "ViewHelperManager" to avoid renderer conflict with the PhpRenderer.
+                 * Register additional view helpers in this array that require access to the renderer.
+                 */
+                'helper_manager' => [
+                    'configs' => [
+                        'Zend\Navigation\View\HelperConfig'
+                    ],
+                ],
             ],
         ],
     ],

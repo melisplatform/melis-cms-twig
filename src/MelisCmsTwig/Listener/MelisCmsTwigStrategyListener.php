@@ -10,7 +10,7 @@
 
 namespace MelisCmsTwig\Listener;
 
-
+use InvalidArgumentException;
 use MelisCmsTwig\Renderer;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;

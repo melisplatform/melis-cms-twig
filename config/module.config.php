@@ -37,16 +37,15 @@ return [
         ],
         'factories' => [
             'MelisCmsTwig\Listener\MelisCmsTwigStrategyListener' => 'MelisCmsTwig\Factory\StrategyFactory',
-
             'Twig_Environment' => 'MelisCmsTwig\Factory\EnvironmentFactory',
             'MelisCmsTwig\ModuleOptions' => 'MelisCmsTwig\Factory\ModuleOptionsFactory',
-
+            'MelisCmsTwigExtension' => 'MelisCmsTwig\Factory\ExtensionFactory',
             'Twig_Loader_Chain' => 'MelisCmsTwig\Factory\LoaderChainFactory',
             'MelisCmsTwig\MapLoader' => 'MelisCmsTwig\Factory\MapLoaderFactory',
             'MelisCmsTwig\StackLoader' => 'MelisCmsTwig\Factory\StackLoaderFactory',
-
             'MelisCmsTwigRendererFactory' => 'MelisCmsTwig\Factory\RendererFactory',
             'MelisCmsTwigResolverFactory' => 'MelisCmsTwig\Factory\TwigResolverFactory',
+            'MelisCmsTwigViewHelperManager' => 'MelisCmsTwig\Factory\ViewHelperManagerFactory',
         ],
     ],
 

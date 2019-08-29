@@ -14,6 +14,7 @@ namespace MelisCmsTwig;
 use Twig\Environment as Twig_Environment;
 use Twig\Loader\ChainLoader as Twig_Loader_Chain;
 use Zend\View\Exception;
+use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
@@ -28,12 +29,19 @@ class Renderer implements RendererInterface, TreeRendererInterface
      * @var Resolver $resolver
      * @var View $view
      * @var bool $canRenderTrees
+     * @var HelperPluginManager
      */
     protected $environment;
     protected $loader;
     protected $resolver;
     protected $view;
     protected $canRenderTrees = true;
+    protected $helperPluginManager;
+
+    /**
+     * @var array Cache for the plugin call
+     */
+    private $__pluginCache = [];
 
     public function __construct(
         View $view,
@@ -138,4 +146,63 @@ class Renderer implements RendererInterface, TreeRendererInterface
 
         return $this;
     }
+
+    /**
+     * Overloading: proxy to helpers
+     *
+     * Proxies to the attached plugin manager to retrieve, return, and potentially
+     * execute helpers.
+     *
+     * - If the helper does not define __invoke, it will be returned
+     * - If the helper does define __invoke, it will be called as a function
+     *
+     * @param  string $method
+     * @param  array $argv
+     * @return mixed
+     */
+    public function __call($method, $argv)
+    {
+        if (!isset($this->__pluginCache[$method])) {
+            $this->__pluginCache[$method] = $this->plugin($method);
+        }
+
+        if (is_callable($this->__pluginCache[$method])) {
+            return call_user_func_array($this->__pluginCache[$method], $argv);
+        }
+
+        return $this->__pluginCache[$method];
+    }
+
+    /**
+     * Get plugin instance, proxy to HelperPluginManager::get
+     *
+     * @param  string $name Name of plugin to return
+     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
+     * @return \Zend\View\Helper\AbstractHelper
+     */
+    public function plugin($name, array $options = null)
+    {
+        return $this->getHelperPluginManager()->setRenderer($this)->get($name, $options);
+    }
+
+    /**
+     * @return HelperPluginManager
+     */
+    public function getHelperPluginManager()
+    {
+        return $this->helperPluginManager;
+    }
+
+    /**
+     * @param HelperPluginManager $helperPluginManager
+     * @return Renderer
+     */
+    public function setHelperPluginManager(HelperPluginManager $helperPluginManager)
+    {
+        $helperPluginManager->setRenderer($this);
+        $this->helperPluginManager = $helperPluginManager;
+
+        return $this;
+    }
+
 }

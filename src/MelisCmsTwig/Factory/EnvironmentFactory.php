@@ -78,7 +78,7 @@ class EnvironmentFactory implements FactoryInterface
 
         /**
          * Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).
-         * @src: https://twig.symfony.com/doc/2.x/api.html#using-extensions
+         * Source: https://twig.symfony.com/doc/2.x/api.html#using-extensions
          */
         return $env;
     }

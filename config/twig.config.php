@@ -38,12 +38,6 @@ return [
                 'enable_twig_model' => true,
 
                 /**
-                 * When enabled, the ZF2 view helpers will get pulled using a fallback renderer. This will
-                 * slightly degrade performance but must be used if you plan on using any of ZF2's view helpers.
-                 */
-                'enable_fallback_functions' => true,
-
-                /**
                  * Twig can load *any* type of file, but Zend Framework's templates do not specify their suffix.
                  * Which is why we set the template's file extension / suffix that Twig will look for.
                  *
@@ -64,12 +58,19 @@ return [
                 ],
 
                 /**
-                 * MelisCmsTwig uses it's own "ViewHelperManager" to avoid renderer conflict with the PhpRenderer.
+                 * Set to true, to use ZF2 view helpers using a fallback renderer.
+                 * This will slightly degrade performance but must be used if you plan using any of ZF2's view helpers.
+                 */
+                'enable_fallback_functions' => true,
+
+                /**
                  * Register additional view helpers in this array that require access to the renderer.
+                 * MelisCmsTwig uses it's own "ViewHelperManager" to avoid renderer conflict with the PhpRenderer.
                  */
                 'helper_manager' => [
                     'configs' => [
-                        'Zend\Navigation\View\HelperConfig'
+                        'Zend\Navigation\View\HelperConfig',
+                        'Zend\Form\View\HelperConfig',
                     ],
                 ],
             ],

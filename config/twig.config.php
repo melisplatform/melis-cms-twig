@@ -58,21 +58,10 @@ return [
                 ],
 
                 /**
-                 * Set to true, to use ZF2 view helpers using a fallback renderer.
+                 * Set to true, make ZF2 view helpers available inside Twig templates
                  * This will slightly degrade performance but must be used if you plan using any of ZF2's view helpers.
                  */
                 'enable_fallback_functions' => true,
-
-                /**
-                 * Register additional view helpers in this array that require access to the renderer.
-                 * MelisCmsTwig uses it's own "ViewHelperManager" to avoid renderer conflict with the PhpRenderer.
-                 */
-                'helper_manager' => [
-                    'configs' => [
-                        'Zend\Navigation\View\HelperConfig',
-                        'Zend\Form\View\HelperConfig',
-                    ],
-                ],
             ],
         ],
     ],

@@ -69,7 +69,6 @@ class RendererFactory implements FactoryInterface
         $renderer = new Renderer($view, $loaderChain, $env, $resolver);
 
         $renderer->setCanRenderTrees($options->getEnableTwigModel());
-        $renderer->setHelperPluginManager($serviceLocator->get('MelisCmsTwigViewHelperManager'));
 
         return $renderer;
     }

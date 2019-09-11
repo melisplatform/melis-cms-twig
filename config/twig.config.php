@@ -19,7 +19,11 @@ return [
                 /**
                  * Options that are passed directly to the Twig_Environment.
                  */
-                'environment_options' => ['debug' => true],
+                'environment_options' => [
+                    'debug' => true,
+                    'cache' => __DIR__ . '/../cache/',
+                    'auto_reload' => 'true',
+                ],
 
                 /**
                  * Service manager alias of any additional loaders to register with the chain. The default
@@ -32,7 +36,7 @@ return [
                 ),
 
                 /**
-                 * Set to 'true' to use 'Twig's Inheritance Model'
+                 * Set to 'true' to use Twig's Template Inheritance
                  * instead of Zend Framework's notion of parent/child layout
                  */
                 'enable_twig_model' => true,

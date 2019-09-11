@@ -98,27 +98,30 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
                     $pageSite = strtolower(implode(self::HYPHEN, $pageSite));
 
                     $requestedView = null;
-                    foreach ($view->getChildren() as $child) {
+                    $children = $view->getChildren();
+                    foreach ($children as $childIndex => $child) {
                         if (is_int(strpos($child->getTemplate(), $pageSite))) {
                             $requestedView = $child; // Renamed "Child View" to "Requested View" for readability
                             break;
                         }
-                        //else detach listeners for this child
                     }
 
                     if (!empty($requestedView) && $this->renderer->canRender($requestedView->getTemplate())) {
                         /**
-                         * Do "The Swap"
-                         *
-                         * - Set the Page Template's layout as a ViewModel variable self::DEFAULT_LAYOUT_VAR_NAME,
-                         * this template will be extended using Twig's {% extends %}.
-                         *
-                         * - Set the "Requested View" (i.e. module/controller/action) as the model's template
+                         * "The Swap"
+                         * - Instead of rendering the "defaultLayout", set this template as Twig's baseTemplate
+                         * which will be extended by the $requestedView; Ex. {% extends baseTemplate %}
                          */
                         $newView = new ViewModel();
                         $newView->setVariable(self::DEFAULT_LAYOUT_VAR_NAME, $view->getTemplate());
-                        $newView->setVariables($requestedView->getVariables());
+                        $newView->setVariables($viewVars);
+
+                        /**
+                         * Set the $requestedView (i.e. module/controller/action) as the model's template.
+                         * Including its controller variables.
+                         */
                         $newView->setTemplate($requestedView->getTemplate());
+                        $newView->setVariables($requestedView->getVariables());
 
                         $e->setModel($newView);
                     }

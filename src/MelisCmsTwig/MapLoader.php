@@ -98,8 +98,8 @@ class MapLoader implements Twig_LoaderInterface
      *
      * @param string $name
      * @param string $path
-     * @throws LoaderError
      * @return MapLoader
+     * @throws LoaderError
      */
     public function add($name, $path)
     {

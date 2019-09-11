@@ -53,7 +53,7 @@ class EnvironmentFactory implements FactoryInterface
          * Source: https://akrabat.com/using-zf2-forms-with-twig/
          */
         if ($options->getEnableFallbackFunctions()) {
-            $renderer = new PhpRenderer();
+            $renderer = $serviceLocator->get('ViewRenderer');
             $viewHelperManager = $serviceLocator->get('ViewHelperManager');
             $renderer->setHelperPluginManager($viewHelperManager);
 

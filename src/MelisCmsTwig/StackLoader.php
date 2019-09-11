@@ -25,12 +25,12 @@ class StackLoader extends FilesystemLoader
     /**
      * Set default file suffix
      *
-     * @param  string $defaultSuffix
+     * @param string $defaultSuffix
      * @return StackLoader
      */
     public function setDefaultSuffix($defaultSuffix)
     {
-        $this->defaultSuffix = (string) $defaultSuffix;
+        $this->defaultSuffix = (string)$defaultSuffix;
         $this->defaultSuffix = ltrim($this->defaultSuffix, '.');
 
         return $this;

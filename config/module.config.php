@@ -45,7 +45,6 @@ return [
             'MelisCmsTwig\StackLoader' => 'MelisCmsTwig\Factory\StackLoaderFactory',
             'MelisCmsTwigRendererFactory' => 'MelisCmsTwig\Factory\RendererFactory',
             'MelisCmsTwigResolverFactory' => 'MelisCmsTwig\Factory\TwigResolverFactory',
-            'MelisCmsTwigViewHelperManager' => 'MelisCmsTwig\Factory\ViewHelperManagerFactory',
         ],
     ],
 

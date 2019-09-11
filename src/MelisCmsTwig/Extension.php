@@ -14,12 +14,22 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig_Environment;
 
+/**
+ * Class Extension
+ *  - Custom functions that cannot be catered by Twig are implemented here.
+ * See example function "xp" a.k.a "Execute Php".
+ *
+ * 'needs_environment' => true // to access the current environment instance inside the custom function
+ * 'needs_context' => true // to access the current context instance inside the custom function
+ *
+ * @package MelisCmsTwig
+ */
 class Extension extends AbstractExtension
 {
     public function getFunctions()
     {
         return [
-            new TwigFunction('xp',[$this, 'executePhp'], ['needs_environment' => true, ]),
+            new TwigFunction('xp', [$this, 'executePhp'], ['needs_context' => true, 'needs_environment' => true]),
         ];
     }
 

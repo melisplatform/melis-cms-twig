@@ -59,7 +59,7 @@ class Renderer implements RendererInterface, TreeRendererInterface
     /**
      * Set the resolver used to map a template name to a resource the renderer may consume.
      *
-     * @param  ResolverInterface $resolver
+     * @param ResolverInterface $resolver
      * @return Renderer
      */
     public function setResolver(ResolverInterface $resolver)
@@ -145,44 +145,6 @@ class Renderer implements RendererInterface, TreeRendererInterface
         $this->canRenderTrees = $canRenderTrees;
 
         return $this;
-    }
-
-    /**
-     * Overloading: proxy to helpers
-     *
-     * Proxies to the attached plugin manager to retrieve, return, and potentially
-     * execute helpers.
-     *
-     * - If the helper does not define __invoke, it will be returned
-     * - If the helper does define __invoke, it will be called as a function
-     *
-     * @param  string $method
-     * @param  array $argv
-     * @return mixed
-     */
-    public function __call($method, $argv)
-    {
-        if (!isset($this->__pluginCache[$method])) {
-            $this->__pluginCache[$method] = $this->plugin($method);
-        }
-
-        if (is_callable($this->__pluginCache[$method])) {
-            return call_user_func_array($this->__pluginCache[$method], $argv);
-        }
-
-        return $this->__pluginCache[$method];
-    }
-
-    /**
-     * Get plugin instance, proxy to HelperPluginManager::get
-     *
-     * @param  string $name Name of plugin to return
-     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
-     * @return \Zend\View\Helper\AbstractHelper
-     */
-    public function plugin($name, array $options = null)
-    {
-        return $this->getHelperPluginManager()->setRenderer($this)->get($name, $options);
     }
 
     /**

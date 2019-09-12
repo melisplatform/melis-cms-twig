@@ -1,0 +1,48 @@
+{% extends baseTemplate %}
+
+{# This sample child template is used to display a list of news inside the MelisDemoCms site module #}
+{% block content %}
+    {# breadcumb area start #}
+    {% set subject = MelisTag(2, 'header_image', 'media', '') %}
+    {% set pregMatches = pregMatch('/<img\\s.*?\\bsrc="(.*?)".*?>/si', subject, {}) %}
+    {% set imgSrc = '/MelisDemoCms/images/bg/news.jpg' %}
+
+    {% if pregMatches[1] is not empty %}
+        {% set imgSrc = pregMatches[1] %}
+    {% endif %}
+    {% set imgBg = 'background: rgba(0, 0, 0, 0) url(' ~ imgSrc ~ ') no-repeat scroll 0 0' %}
+
+    <div class="breadcumb-area overlay pos-rltv" style="{{ imgBg }}">
+        {% if renderMode == 'melis' %}
+            <div class="breadcumb-area-overlay-media">
+                {{ MelisTag(idPage, 'header_image', 'media', '<img alt="" src="' ~ imgSrc ~ '">') }}
+            </div>
+        {% endif %}
+        <div class="bread-main">
+            <div class="bred-hading text-center">
+                <h5>{{ MelisTag(idPage, 'header_title', 'textarea', 'News') }}</h5>
+            </div>
+            {{ layout().pageBreadcrumb }}
+        </div>
+    </div>
+    {# breadcumb area end #}
+
+    {# blog area are start #}
+    <div class="blog-area pb-70">
+        <div class="container">
+            {# Total area start #}
+            <div class="col-xs-12 text-center">
+                <div class="heading-title heading-style pos-rltv mtb-50 text-center">
+                    <h5 class="uppercase">{{ MelisTag(idPage, 'header_subtitle', 'textarea', 'News') }}</h5>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            {# List of News start; listNewsParameters is set inside the controller #}
+            {{ MelisCmsNewsListPlugin(listNewsParameters) }}
+            {# End of List of News #}
+        </div>
+    </div>
+    {# blog area are end #}
+{% endblock %}

@@ -38,11 +38,6 @@ class Renderer implements RendererInterface, TreeRendererInterface
     protected $canRenderTrees = true;
     protected $helperPluginManager;
 
-    /**
-     * @var array Cache for the plugin call
-     */
-    private $__pluginCache = [];
-
     public function __construct(
         View $view,
         Twig_Loader_Chain $loader,

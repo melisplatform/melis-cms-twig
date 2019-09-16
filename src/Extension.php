@@ -29,17 +29,24 @@ class Extension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('xp', [$this, 'executePhp'], ['needs_context' => true, 'needs_environment' => true]),
             new TwigFunction('pregMatch', [$this, 'pregMatch']),
+
+            // Place the following in a different extension file called "DeveloperToolsExtension"
+            new TwigFunction('xp', [$this, 'executePhp'], ['needs_context' => true, 'needs_environment' => true]),
+            new TwigFunction('pp', [$this, 'prettyPrint']), // Pretty Print: print_r()
+            new TwigFunction('vd', [$this, 'varDump']),     // Variable Dump: var_dump()
+            new TwigFunction('dd', [$this, 'dieDump']),     // Die & Dump: die(var_dump())
         ];
     }
 
     /**
-     * Executing string PHP code using eval()
+     * Executes string PHP code using eval()
+     *  - Context Variables & Twig Environment is injected for easier usage.
      *
      * @param Twig_Environment $env
+     * @param $context
      * @param string $code
-     * @return mixed
+     * @return mixed|string
      */
     public function executePhp(Twig_Environment $env, $context, string $code)
     {
@@ -88,5 +95,35 @@ class Extension extends AbstractExtension
         } else {
             return preg_match($pattern, $subject);
         }
+    }
+
+    /**
+     * Pretty Prints the data passed
+     *
+     * @param $data
+     */
+    public function prettyPrint($data)
+    {
+        echo "<pre>" . print_r($data, true) . "</pre>";
+    }
+
+    /**
+     * Uses PHP's var_dump()
+     *
+     * @param $data
+     */
+    public function varDump($data)
+    {
+        echo var_dump($data);
+    }
+
+    /**
+     * Dumps the passed data & Halts program execution
+     *
+     * @param $data
+     */
+    public function dieDump($data)
+    {
+        die(var_dump($data));
     }
 }

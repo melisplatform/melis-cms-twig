@@ -27,8 +27,6 @@ return [
         'invokables' => [],
         'aliases' => [
             'translator' => 'MvcTranslator',
-
-            'MelisCmsTwigStrategy' => 'MelisCmsTwig\Listener\MelisCmsTwigStrategyListener',
             'MelisCmsTwigRenderer' => 'MelisCmsTwigRendererFactory',
             'MelisCmsTwigLoaderChain' => 'Twig_Loader_Chain',
             'MelisCmsTwigTemplateMap' => 'MelisCmsTwig\MapLoader',
@@ -36,7 +34,7 @@ return [
             'MelisCmsTwigResolver' => 'MelisCmsTwigResolverFactory',
         ],
         'factories' => [
-            'MelisCmsTwig\Listener\MelisCmsTwigStrategyListener' => 'MelisCmsTwig\Factory\StrategyFactory',
+            'MelisCmsTwigStrategy' => 'MelisCmsTwig\Factory\StrategyFactory',
             'Twig_Environment' => 'MelisCmsTwig\Factory\EnvironmentFactory',
             'MelisCmsTwig\ModuleOptions' => 'MelisCmsTwig\Factory\ModuleOptionsFactory',
             'MelisCmsTwigExtension' => 'MelisCmsTwig\Factory\ExtensionFactory',

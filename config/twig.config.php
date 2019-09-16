@@ -30,10 +30,10 @@ return [
                  * has the TemplateMap and TemplatePathStack registered. This setting only has an effect
                  * if the `environment_loader` key above is set to MelisCmsTwigLoaderChain.
                  */
-                'loader_chain' => array(
+                'loader_chain' => [
                     'MelisCmsTwigTemplateMap',
                     'MelisCmsTwigTemplatePathStack',
-                ),
+                ],
 
                 /**
                  * Set to 'true' to use Twig's Template Inheritance

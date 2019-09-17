@@ -17,47 +17,66 @@ composer require melisplatform/melis-cms-twig
 ### Basic usage inside Melis Platform
 By default, Melis CMS Twig can be used to render a page inside Melis CMS by performing the following:
 ##### I. Base Template creation
-   - Create a  with a `twig` file extension. This base template will be extended by a child layout
+This base template will be extended by a child layout. 
+   1. Inside your site's layout view folder, create a view file with a `twig` file extension:
    
-     Example: `your-base-template.twig` or `defaultLayout.twig`
+      `..\view\layout\defaultTwigLayout.twig`
 
-     This template must be registered in your site module's configuration:
-     ```php
-     // Example inside module.config.php
-     return [
-         'view_manager' => [
-             'template_map' => [
-                 'MyDemoSiteName/defaultTwigLayout' => __DIR__ . '/../view/layout/defaultLayout.twig',   
-             ]
-         ]
-     ];
-     ```
+      This template must be registered in your site module's configuration:
+     
+      ```php
+      // inside module.config.php
+      return [
+          'view_manager' => [
+            'template_map' => [
+                'MyDemoSiteName/defaultTwigLayout' => __DIR__ . '/../view/layout/defaultLayout.twig',   
+            ]
+          ]
+      ];
+      ```
+      
+      Possible contents of a base template can be seen in this sample: [defaultTwigLayout.twig](./etc/examples/defaultTwigLayout.twig)
 
 
-##### II. Child Template creation   
-   - Inside Melis Platform, go to `MelisCms` > `Site Tools` > `Template manager`, and add a new template.
-   - Set the `Template type` to `Twig`
-   - Set the `Layout` to `defaultTwigLayout`
+##### II. Child Template creation
+For this example, we will be creating a *"Home"* page.
+   1. Inside your site's view folder, create a new file:
    
-     - Note: `Layout` is your base template's name as registered in your module configuration. In other words, _~~MyDemoSiteName/~~**defaultTwigLayout**_ 
+      `..\view\my-demo-site-name\home\my-index.twig`
+      
+      Sample child templates: [index.twig](./etc/examples/index.twig) or [news-list.twig](./etc/examples/news-list.twig) 
+            
+   2. Inside Melis Platform, go to `MelisCms` > `Site Tools` > `Template manager`, and add a `New template`.
+      - **Site:** My Demo Site Name
+      - **Template type:** `Twig`
+      - **Layout:** `defaultTwigLayout`
+      - **Controller:** Home
+      - **Action:** `myIndex`
+         
+      **Layout** shall be the base template's name as registered in your module configuration. In other words, _~~MyDemoSiteName/~~**defaultTwigLayout**_.
+      
+       **Action** shall be the child template's comma-separated filename, transformed into Camel Case.
+       
+       Inside *Home Controller*, implement a method named `myIndexAction(...)`.
+       
+       
+##### III. Twig a page
+1. Inside Melis Platform, go to `MelisCms` > `Site tree view`. Create a new page.
+2. Set the page's `Template` to your child template from the previous step. Select `Draft` to save & reload the Page.
 
-   
-##### III. Twig a page   
-- Inside Melis Platform, go to `MelisCms` > `Site tree view`. Create a new page or open an existing one.
-- Set the page's `Template` to your child template from the previous step. Save or `Draft` to reload the Page.
-- To enable Twig rendering in front, enable Melis CMS Twig in in your site's `module.load.php`.
-
+   Note: To enable Twig rendering in front, enable Melis CMS Twig in in your site's `module.load.php`.
     ```php
-    return [
-      ...
-      'MelisCmsTwig',
-      ...
-    ];
+   return [
+       ...
+       'MelisCmsTwig',
+       ...
+   ];
     ``` 
 
+
 ### Using View Helpers 
-Inside your twig templates, Melis CMS Twig provides you access to various View Helpers:
- - **Zend View Helpers** (_Layout,_ _Doctype,_ etc.)
+Inside your twig templates, Melis CMS Twig provides access to various [View Helpers](https://docs.zendframework.com/zend-view/helpers/intro/):
+ - **Zend View Helpers** (*Layout, Doctype, etc.*)
      ```twig
     {# Generating Styles & JS in the <head> #}
     {{ headLink() }}
@@ -67,7 +86,7 @@ Inside your twig templates, Melis CMS Twig provides you access to various View H
     {{ layout().myVar }}
     ```
 
- - **Melis custom helpers** (_MelisTag,_ _MelisDragDropZone_, etc.)
+ - **Melis Helpers** (*MelisTag, MelisDragDropZone, etc.*)
      ```twig
     {# Displaying an editable text area (editable in back office only) #}
     {{ MelisTag(myPageId, "my-footer-title", "textarea", "My Cool Default Title") }}
@@ -78,17 +97,15 @@ Inside your twig templates, Melis CMS Twig provides you access to various View H
     ...
     ```
  
- - **Melis module plugins** (_MelisCmsNewsListPlugin_, _MelisCmsNewsLatestPlugin, & more)
+ - **Melis Plugins** (*MelisCmsNewsListPlugin, MelisCmsNewsLatestPlugin, & more*)
      ```twig
     {# Displaying a news list from MelisCmsNews, with parameters passed from controller #}
     {{ MelisCmsNewsListPlugin(listNewsParameters) }}
     ```
    
 
-### Melis plugin conversion into a "Twig plugin" via view helper
-
-For Melis Platform developers, you can use your plugins inside Twig templates.
-A "Twig Plugin" is actually a (Twig function)[Link to twig function docu] injected inside (Melis CMS Twig's Environment)[Link to evn factory file] via ZF2's View Helper Manager. Which is why you need to register your plugin under the `view_helpers` key.
+### Converting a Melis Plugin 
+To make use of Melis Plugins inside Twig templates, convert them as view helpers.
 
 #### I. Helper creation
 1. Create/Copy the helper class that extends Zend's `AbstractHelper`.
@@ -107,18 +124,28 @@ A "Twig Plugin" is actually a (Twig function)[Link to twig function docu] inject
     ```
 
 #### III. Helper Registration
-1. Under your site's configuration (Ex. `config/module.config.php`), register your plugin's helper:
+The conversion process actually creates a [Twig function](https://twig.symfony.com/doc/2.x/advanced.html#id2) injected inside [Melis CMS Twig's Environment](./src/Factory/EnvironmentFactory.php) via ZF2's View Helper Manager. 
+This is the reason why you need to register your plugin under the `view_helpers` key.
+
+1. Under your site's configuration (`my-demo-site-name\config\module.config.php`), register your plugin's helper:
 
     ```php
     ...
     'view_helpers' => [
-    'factories' => [
-    'YourPlugin' => 'MelisYourModule\View\Helper\Factory\YourPluginHelperFactory',
+        'factories' => [
+            'YourPlugin' => 'MelisYourModule\View\Helper\Factory\YourPluginHelperFactory',
+        ],
     ],
-    ],
+    'view_manager' => [...],
     ...
     ```
- 
+   
+## References
+These documentations mainly helped in understanding & implementing the module:
+- [Twig for Developers](https://twig.symfony.com/doc/2.x/api.html)
+- [The MvcEvent](https://docs.zendframework.com/zend-mvc/mvc-event/)
+- [The PhpRenderer](https://docs.zendframework.com/zend-view/php-renderer/)
+
 ## Authors
 * **Melis Technology** - [www.melistechnology.com](https://www.melistechnology.com/)
 

@@ -55,7 +55,7 @@ For this example, we will be creating a *"Home"* page.
          
       **Layout** shall be the base template's name as registered in your module configuration. In other words, _~~MyDemoSiteName/~~**defaultTwigLayout**_.
       
-       **Action** shall be the child template's comma-separated filename, transformed into Camel Case.
+      **Action** shall be the child template's comma-separated filename, transformed into Camel Case.
        
        Inside *Home Controller*, implement a method named `myIndexAction(...)`.
        
@@ -65,7 +65,7 @@ For this example, we will be creating a *"Home"* page.
 2. Set the page's `Template` to your child template from the previous step. Select `Draft` to save & reload the Page.
 
    Note: To enable Twig rendering in front, enable Melis CMS Twig in in your site's `module.load.php`.
-    ```php
+   ```php
    return [
        ...
        'MelisCmsTwig',
@@ -77,7 +77,7 @@ For this example, we will be creating a *"Home"* page.
 ### Using View Helpers 
 Inside your twig templates, Melis CMS Twig provides access to various [View Helpers](https://docs.zendframework.com/zend-view/helpers/intro/):
  - **Zend View Helpers** (*Layout, Doctype, etc.*)
-     ```twig
+    ```twig
     {# Generating Styles & JS in the <head> #}
     {{ headLink() }}
     {{ headScript() }}
@@ -87,7 +87,7 @@ Inside your twig templates, Melis CMS Twig provides access to various [View Help
     ```
 
  - **Melis Helpers** (*MelisTag, MelisDragDropZone, etc.*)
-     ```twig
+    ```twig
     {# Displaying an editable text area (editable in back office only) #}
     {{ MelisTag(myPageId, "my-footer-title", "textarea", "My Cool Default Title") }}
     
@@ -98,7 +98,7 @@ Inside your twig templates, Melis CMS Twig provides access to various [View Help
     ```
  
  - **Melis Plugins** (*MelisCmsNewsListPlugin, MelisCmsNewsLatestPlugin, & more*)
-     ```twig
+    ```twig
     {# Displaying a news list from MelisCmsNews, with parameters passed from controller #}
     {{ MelisCmsNewsListPlugin(listNewsParameters) }}
     ```

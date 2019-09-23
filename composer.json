@@ -27,6 +27,7 @@
   ],
   "extra": {
     "module-name": "MelisCmsTwig",
+    "melis-site": false,
     "dbdeploy": true
   },
   "require": {

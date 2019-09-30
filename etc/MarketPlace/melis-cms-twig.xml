@@ -1,0 +1,22 @@
+<melis-cms-twig>
+	<package_info>
+		<mp_title>Melis Cms Twig</mp_title>
+		<mp_subtitle>Twig as an alternative templating engine in Melis CMS pages.</mp_subtitle>
+		<mp_description>
+			<![CDATA[
+				<p>Extends Twig's functionalities to offer an alternative rendering strategy inside Melis Platform.</p>
+				<br /> Melis CMS Twig offers the following features & more: <p>- Twig's functionalities<br /> - Melis Plugins & View Helpers<br /> - Zend Framework's View Helpers
+				<br /> Checkout the <a href="https://github.com/melisplatform/melis-cms-twig#basic-usage-inside-melis-platform">Basic usage guide</a> or install the demo site (Melis Demo CMS Twig) from the Marketplace.</p>
+			]]>
+		</mp_description>
+		<mp_maintainers>melisplatform</mp_maintainers>
+		<mp_group>Melis Cms</mp_group>
+	</package_info>
+	<package_images>
+		<img_1>
+			<mpi_image_title>Melis Platform + Twig</mpi_image_title>
+			<mpi_image_file>melis-cms-twig_1.JPG</mpi_image_file>
+			<mpi_image_main>1</mpi_image_main>
+		</img_1>
+	</package_images>
+</melis-cms-twig>

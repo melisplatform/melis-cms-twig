@@ -28,7 +28,8 @@
   "extra": {
     "module-name": "MelisCmsTwig",
     "melis-site": false,
-    "dbdeploy": true
+    "dbdeploy": true,
+    "melis-module-category": "cms"
   },
   "require": {
     "php": "^7.0",

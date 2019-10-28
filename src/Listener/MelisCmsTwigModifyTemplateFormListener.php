@@ -16,7 +16,6 @@ use Zend\EventManager\ListenerAggregateInterface;
 
 /**
  * Modifies the Template Form inside the Template Manager (Melis CMS Site Tools)
- *  - Unhides & Converts the Template Type form element into a "Select"
  *  - Adds the additional Twig Template type under the allowable options (haystack)
  */
 class MelisCmsTwigModifyTemplateFormListener extends MelisCoreGeneralListener implements ListenerAggregateInterface
@@ -34,32 +33,13 @@ class MelisCmsTwigModifyTemplateFormListener extends MelisCoreGeneralListener im
                 if (is_array($formConfig) && !empty($formConfig)) {
                     foreach ($formConfig['elements'] as $idx => $element) {
                         if ($element['spec']['name'] === 'tpl_type') {
-                            $haystack = $formConfig['input_filter']['tpl_type']['validators'][0]['options']['haystack'];
-                            if (empty($haystack)) {
-                                break;
-                            }
-
                             /** @var \Zend\ServiceManager\ServiceLocatorInterface $sm */
                             $sm = $e->getTarget()->getServiceLocator();
                             $translator = $sm->get('translator');
 
-                            $valueOptions = [];
-                            foreach ($haystack as $index => $tpl_type) {
-                                $valueOptions[$tpl_type] = $translator->translate('tr_meliscmstwig_label_' . $tpl_type);
-                            }
-
-                            /**
-                             * Converts the Template Type form element into a "Select"
-                             * Adds the additional Twig Template type under the allowable options (haystack)
-                             */
-                            $formConfig['elements'][$idx]['spec'] = [
-                                'name' => 'tpl_type',
-                                'type' => 'select',
-                                'options' => [
-                                    'label' => $translator->translate('tr_meliscmstwig_label'),
-                                    'value_options' => $valueOptions,
-                                ],
-                            ];
+                            /** Adds the additional Twig Template type (value option & input filter haystack) */
+                            $formConfig['elements'][$idx]['spec']['options']['value_options']['TWG'] = $translator->translate('tr_meliscmstemplate_typ_TWG');
+                            $formConfig['input_filter']['tpl_type']['validators'][0]['options']['haystack'][] = 'TWG';
 
                             $e->setParam('formConfig', $formConfig);
 

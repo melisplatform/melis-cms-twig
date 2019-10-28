@@ -1,7 +1,5 @@
 <?php
 return [
-    'tr_meliscmstwig_label' => 'Template type',
-    'tr_meliscmstwig_label_PHP' => 'PHP',
-    'tr_meliscmstwig_label_ZF2' => 'Zend Framework 2',
-    'tr_meliscmstwig_label_TWG' => 'Twig',
+    // To have a template type label inside template manager: "tr_meliscmstemplate_typ_" . <template_type>
+    'tr_meliscmstemplate_typ_TWG' => 'Twig',
 ];

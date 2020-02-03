@@ -37,10 +37,10 @@
     "ext-json": "*",
     "ext-pdo_mysql": "*",
     "justinrainbow/json-schema": "5.2.1",
-    "melisplatform/melis-core": "^3.1.0",
-    "melisplatform/melis-engine": "^3.1.0",
-    "melisplatform/melis-front": "^3.1.0",
-    "melisplatform/melis-cms": "^3.1.0",
+    "melisplatform/melis-core": "*",
+    "melisplatform/melis-engine": "*",
+    "melisplatform/melis-front": "*",
+    "melisplatform/melis-cms": "*",
     "twig/twig": "^2.0"
   },
   "require-dev": {

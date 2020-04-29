@@ -11,25 +11,23 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
 use MelisCmsTwig\Renderer;
 use MelisCmsTwig\Resolver;
 use Twig\Environment as Twig_Environment;
 use Twig\Extension\AbstractExtension as Twig_Extension;
 use Twig\Loader\ChainLoader as Twig_Loader_Chain;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RendererFactory implements FactoryInterface
+class RendererFactory
 {
-
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
+     * @return Renderer
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /**
          * Register extensions
@@ -38,16 +36,16 @@ class RendererFactory implements FactoryInterface
          * @var Twig_Environment $env
          * @var Twig_Extension $extension
          */
-        $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
-        $env = $serviceLocator->get('Twig_Environment');
+        $options = $container->get('MelisCmsTwig\ModuleOptions');
+        $env = $container->get('Twig_Environment');
 
         foreach ($options->getExtensions() as $extension) {
             // Allows modules to override/remove extensions.
             if (empty($extension)) {
                 continue;
             } else if (is_string($extension)) {
-                if ($serviceLocator->has($extension)) {
-                    $extension = $serviceLocator->get($extension);
+                if ($container->has($extension)) {
+                    $extension = $container->get($extension);
                 } else {
                     $extension = new $extension();
                 }
@@ -60,12 +58,13 @@ class RendererFactory implements FactoryInterface
 
         /**
          * @var Twig_Loader_Chain $loaderChain
-         * @var \Zend\View\View $view
+         * @var \Laminas\View\View $view
          * @var Resolver $resolver
          */
-        $view = $serviceLocator->get('Zend\View\View');
-        $loaderChain = $serviceLocator->get('MelisCmsTwigLoaderChain');
-        $resolver = $serviceLocator->get('MelisCmsTwig\Resolver');
+        $view = $container->get('Laminas\View\View');
+        $loaderChain = $container->get('MelisCmsTwigLoaderChain');
+//        $resolver = $container->get('MelisCmsTwig\Resolver');
+        $resolver = new Resolver($container->get('Twig_Environment'));
         $renderer = new Renderer($view, $loaderChain, $env, $resolver);
 
         $renderer->setCanRenderTrees($options->getEnableTwigModel());

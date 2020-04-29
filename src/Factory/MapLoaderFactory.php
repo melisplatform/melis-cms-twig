@@ -11,25 +11,25 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\MapLoader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class MapLoaderFactory implements FactoryInterface
+class MapLoaderFactory
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return MapLoader
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return MapLoader|object
+     * @throws \Twig\Error\LoaderError
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /**
          * @var \MelisCmsTwig\MapLoader $templateMap
-         * @var \Zend\View\Resolver\TemplateMapResolver $zfTemplateMap
+         * @var \Laminas\View\Resolver\TemplateMapResolver $zfTemplateMap
          */
-        $zfTemplateMap = $serviceLocator->get('ViewTemplateMapResolver');
+        $zfTemplateMap = $container->get('ViewTemplateMapResolver');
         $templateMap = new MapLoader();
 
         /** Mapping files loaded by ZendFramework's Template Resolver */

@@ -76,7 +76,7 @@ For this example, we will be creating a *"Home"* page.
 
 ### Using View Helpers 
 Inside your twig templates, Melis CMS Twig provides access to various [View Helpers](https://docs.zendframework.com/zend-view/helpers/intro/):
- - **Zend View Helpers** (*Layout, Doctype, etc.*)
+ - **Laminas View Helpers** (*Layout, Doctype, etc.*)
     ```twig
     {# Generating Styles & JS in the <head> #}
     {{ headLink() }}
@@ -108,14 +108,14 @@ Inside your twig templates, Melis CMS Twig provides access to various [View Help
 To make use of Melis Plugins inside Twig templates, convert them as view helpers.
 
 #### I. Helper creation
-1. Create/Copy the helper class that extends Zend's `AbstractHelper`.
+1. Create/Copy the helper class that extends Laminas's `AbstractHelper`.
 
 2. Implement the `__invoke` method that it calls your plugin: `ServiceManager->get('ControllerPluginManager')->get('YourPlugin')`.
 
 3. `return` the result of `ViewRenderer->render(YourPlugin)`.
 
 #### II. Helper Factory creation
-1. Create/Copy the helper factory class that implements Zend's `FactoryInterface`
+1. Create/Copy the helper factory class that implements Laminas's `FactoryInterface`
 
 2. Implement the `createService` method that it instantiates the Helper from the previous step, passing all the needed parameters.
 

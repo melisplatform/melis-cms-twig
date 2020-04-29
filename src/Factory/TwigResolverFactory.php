@@ -11,20 +11,19 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\Resolver;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TwigResolverFactory implements FactoryInterface
+class TwigResolverFactory
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Resolver
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return Resolver|object
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new Resolver($serviceLocator->get('Twig_Environment'));
+        return new Resolver($container->get('Twig_Environment'));
     }
 }

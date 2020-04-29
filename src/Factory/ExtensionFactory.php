@@ -11,19 +11,18 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\Extension;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ExtensionFactory implements FactoryInterface
+class ExtensionFactory
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return Extension
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return Extension|object
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new Extension();
     }

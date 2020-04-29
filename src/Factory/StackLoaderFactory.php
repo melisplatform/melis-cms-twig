@@ -11,27 +11,26 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\StackLoader;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Resolver\TemplatePathStack;
+use Laminas\ServiceManager\FactoryInterface;
 
-class StackLoaderFactory implements FactoryInterface
+class StackLoaderFactory
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
+     * @return StackLoader
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var TemplatePathStack $zfTemplateStack */
-        $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
+        $zfTemplateStack = $container->get('ViewTemplatePathStack');
         $templateStack = new StackLoader($zfTemplateStack->getPaths()->toArray());
 
         /** @var \MelisCmsTwig\ModuleOptions $options */
-        $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
+        $options = $container->get('MelisCmsTwig\ModuleOptions');
         $templateStack->setDefaultSuffix($options->getSuffix());
 
         return $templateStack;

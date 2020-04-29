@@ -13,13 +13,13 @@ namespace MelisCmsTwig;
 
 use Twig\Environment as Twig_Environment;
 use Twig\Loader\ChainLoader as Twig_Loader_Chain;
-use Zend\View\Exception;
-use Zend\View\HelperPluginManager;
-use Zend\View\Model\ModelInterface;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Renderer\TreeRendererInterface;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\View;
+use Laminas\View\Exception;
+use Laminas\View\HelperPluginManager;
+use Laminas\View\Model\ModelInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Renderer\TreeRendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\View;
 
 class Renderer implements RendererInterface, TreeRendererInterface
 {

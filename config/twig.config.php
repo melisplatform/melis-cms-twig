@@ -37,12 +37,12 @@ return [
 
                 /**
                  * Set to 'true' to use Twig's Template Inheritance
-                 * instead of Zend Framework's notion of parent/child layout
+                 * instead of Laminas Framework's notion of parent/child layout
                  */
                 'enable_twig_model' => true,
 
                 /**
-                 * Twig can load *any* type of file, but Zend Framework's templates do not specify their suffix.
+                 * Twig can load *any* type of file, but Laminas Framework's templates do not specify their suffix.
                  * Which is why we set the template's file extension / suffix that Twig will look for.
                  *
                  * - Used by MelisCmsTwigTemplatePathStack (or any future loaders), appended as an extension to a

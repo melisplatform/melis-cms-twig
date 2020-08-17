@@ -10,23 +10,20 @@
 
 namespace MelisCmsTwig\Factory;
 
-
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\ModuleOptions;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ModuleOptionsFactory implements FactoryInterface
+class ModuleOptionsFactory
 {
     /**
-     * Create service
-     *  - this object will hold the options passed during the creation of a Twig environment
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
+     * @return ModuleOptions
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Configuration');
+        $config = $container->get('Configuration');
         $options = empty($config['plugins']['MelisCmsTwig']['conf']) ? [] : $config['plugins']['MelisCmsTwig']['conf'];
 
         return new ModuleOptions($options);

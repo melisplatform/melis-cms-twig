@@ -11,20 +11,19 @@
 namespace MelisCmsTwig\Factory;
 
 
+use Interop\Container\ContainerInterface;
 use MelisCmsTwig\Listener\MelisCmsTwigStrategyListener;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
-class StrategyFactory implements FactoryInterface
+class StrategyFactory
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
+     * @return MelisCmsTwigStrategyListener
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new MelisCmsTwigStrategyListener($serviceLocator->get('MelisCmsTwigRenderer'));
+        return new MelisCmsTwigStrategyListener($container->get('MelisCmsTwigRenderer'));
     }
 }

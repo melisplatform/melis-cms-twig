@@ -10,10 +10,10 @@
 namespace MelisCmsTwig;
 
 use MelisCmsTwig\Listener\MelisCmsTwigModifyTemplateFormListener;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Zend\Session\Container;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Session\Container;
+use Laminas\Stdlib\ArrayUtils;
 
 /**
  * Class Module
@@ -33,8 +33,8 @@ class Module
         /** attach Listener(s) */
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-
-        $eventManager->attach(new MelisCmsTwigModifyTemplateFormListener());
+        
+        (new MelisCmsTwigModifyTemplateFormListener())->attach($eventManager);
     }
 
     public function createTranslations($e)
@@ -91,7 +91,7 @@ class Module
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],

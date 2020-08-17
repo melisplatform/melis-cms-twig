@@ -10,27 +10,31 @@
 
 namespace MelisCmsTwig\Factory;
 
+use Interop\Container\ContainerInterface;
 use RuntimeException;
 use Twig\Environment;
 use Twig_Function;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
-class EnvironmentFactory implements FactoryInterface
+/**
+ * Class EnvironmentFactory
+ * @package MelisCmsTwig\Factory
+ */
+class EnvironmentFactory
 {
     /**
-     * Create service
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
+     * @param $requestedName
+     * @param array|null $options
      * @return Environment
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \MelisCmsTwig\ModuleOptions $options */
-        $options = $serviceLocator->get('MelisCmsTwig\ModuleOptions');
+        $options = $container->get('MelisCmsTwig\ModuleOptions');
         $envClass = $options->getEnvironmentClass();
 
-        if (!$serviceLocator->has($options->getEnvironmentLoader())) {
+        if (!$container->has($options->getEnvironmentLoader())) {
             throw new RuntimeException(
                 sprintf(
                     'Loader with alias "%s" could not be found!',
@@ -40,10 +44,10 @@ class EnvironmentFactory implements FactoryInterface
         }
 
         /** @var Environment $env - class name is retrieved from 'environment_class' key in "twig.config.php" */
-        $env = new $envClass($serviceLocator->get($options->getEnvironmentLoader()), $options->getEnvironmentOptions());
+        $env = new $envClass($container->get($options->getEnvironmentLoader()), $options->getEnvironmentOptions());
 
         /**
-         * To use Zend Framework's View Helpers (ex. Layout, Doctype, FlashMessenger, Url, etc.)
+         * To use Laminas Framework's View Helpers (ex. Layout, Doctype, FlashMessenger, Url, etc.)
          *
          * - In "config/twig.config.php", set 'enable_fallback_functions' to true
          * - To use the helpers without rewriting them all as Twig Extensions, MelisCmsTwig is using Twig Environment's
@@ -53,8 +57,8 @@ class EnvironmentFactory implements FactoryInterface
          * Source: https://akrabat.com/using-zf2-forms-with-twig/
          */
         if ($options->getEnableFallbackFunctions()) {
-            $renderer = $serviceLocator->get('ViewRenderer');
-            $viewHelperManager = $serviceLocator->get('ViewHelperManager');
+            $renderer = $container->get('ViewRenderer');
+            $viewHelperManager = $container->get('ViewHelperManager');
             $renderer->setHelperPluginManager($viewHelperManager);
 
             $env->registerUndefinedFunctionCallback(

@@ -12,10 +12,10 @@ namespace MelisCmsTwig\Listener;
 
 use InvalidArgumentException;
 use MelisCmsTwig\Renderer;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\View\Model\ViewModel;
-use Zend\View\ViewEvent;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\ViewEvent;
 
 class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
 {
@@ -30,7 +30,7 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
     private const DEFAULT_LAYOUT_VAR_NAME = 'baseTemplate';
 
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var \Laminas\Stdlib\CallbackHandler[]
      * @var  Renderer
      */
     protected $listeners = [];
@@ -138,7 +138,7 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
     /**
      * Inject the response from the renderer.
      *
-     * @param \Zend\View\ViewEvent $e
+     * @param \Laminas\View\ViewEvent $e
      */
     public function injectResponse(ViewEvent $e)
     {

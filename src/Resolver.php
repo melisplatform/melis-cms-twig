@@ -13,8 +13,8 @@ namespace MelisCmsTwig;
 
 use Twig\Environment as Twig_Environment;
 use Twig\TemplateWrapper;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 class Resolver implements ResolverInterface
 {

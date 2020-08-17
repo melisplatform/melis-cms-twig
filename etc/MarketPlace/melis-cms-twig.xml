@@ -5,7 +5,7 @@
 		<mp_description>
 			<![CDATA[
 				<p>Extends Twig's functionalities to offer an alternative rendering strategy inside Melis Platform.</p>
-				<br /> Melis CMS Twig offers the following features & more: <p>- Twig's functionalities<br /> - Melis Plugins & View Helpers<br /> - Zend Framework's View Helpers
+				<br /> Melis CMS Twig offers the following features & more: <p>- Twig's functionalities<br /> - Melis Plugins & View Helpers<br /> - Laminas Framework's View Helpers
 				<br /> Checkout the <a href="https://github.com/melisplatform/melis-cms-twig#basic-usage-inside-melis-platform">Basic usage guide</a> or install the demo site (Melis Demo CMS Twig) from the Marketplace.</p>
 			]]>
 		</mp_description>

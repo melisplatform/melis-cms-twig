@@ -13,7 +13,7 @@ namespace MelisCmsTwig\Factory;
 use Interop\Container\ContainerInterface;
 use RuntimeException;
 use Twig\Environment;
-use Twig_Function;
+use Twig\TwigFunction;
 use Laminas\View\Renderer\PhpRenderer;
 
 /**
@@ -75,7 +75,7 @@ class EnvironmentFactory
                     $callable = [$renderer->plugin($name), '__invoke'];
                     $options = ['is_safe' => ['html']];
 
-                    return new Twig_Function($name, $callable, $options);
+                    return new TwigFunction($name, $callable, $options);
                 }
             );
         }

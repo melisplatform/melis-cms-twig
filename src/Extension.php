@@ -12,7 +12,7 @@ namespace MelisCmsTwig;
 use Exception;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Twig_Environment;
+use Twig\Environment as Twig_Environment;
 
 /**
  * Class Extension

@@ -14,7 +14,7 @@ return [
                 /**
                  * Optional class name override for instantiating the Twig Environment in the factory.
                  */
-                'environment_class' => 'Twig_Environment',
+                'environment_class' => 'Twig\Environment',
 
                 /**
                  * Options that are passed directly to the Twig_Environment.
@@ -58,7 +58,7 @@ return [
                  */
                 'extensions' => [
                     'MelisCmsTwigExtension',
-                    'Twig_Extension_Debug',
+                    'Twig\Extension\DebugExtension',
                 ],
 
                 /**

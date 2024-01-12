@@ -10,7 +10,7 @@
 
 namespace MelisCmsTwig\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use Twig\Loader\ChainLoader as Twig_Loader_Chain;
 

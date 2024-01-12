@@ -11,7 +11,7 @@
 namespace MelisCmsTwig\Factory;
 
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use MelisCmsTwig\MapLoader;
 
 class MapLoaderFactory

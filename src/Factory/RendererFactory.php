@@ -11,7 +11,7 @@
 namespace MelisCmsTwig\Factory;
 
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use MelisCmsTwig\Renderer;
 use MelisCmsTwig\Resolver;

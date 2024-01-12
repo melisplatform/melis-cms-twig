@@ -10,7 +10,7 @@
 
 namespace MelisCmsTwig\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use MelisCmsTwig\ModuleOptions;
 
 class ModuleOptionsFactory

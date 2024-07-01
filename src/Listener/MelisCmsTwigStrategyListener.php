@@ -81,55 +81,57 @@ class MelisCmsTwigStrategyListener implements ListenerAggregateInterface
         $view = $e->getModel();
         $viewVars = $view->getVariables();
 
-        if (empty($viewVars) || !method_exists($viewVars, 'offsetGet')) {
+        if (empty($viewVars) || !is_object($viewVars)) 
             return false;
-        } else {
-            $pageTemplate = $viewVars->offsetGet("pageTemplate");
-            /**
-             * Check for Twig Template ("TWG" template type)
-             */
-            if (!empty($pageTemplate->tpl_type) && $pageTemplate->tpl_type === self::TWIG_TEMPLATE) {
-                if ($this->renderer->canRender($view->getTemplate())) {
-                    /**
-                     * Get the "Requested View" (i.e. module/controller/action)
-                     * using the PageTemplate's site module (hyphen-separated-format, ex. melis-demo-cms)
-                     */
-                    $pageSite = preg_split(self::UPPERCASE, $pageTemplate->tpl_zf2_website_folder, -1, PREG_SPLIT_NO_EMPTY);
-                    $pageSite = strtolower(implode(self::HYPHEN, $pageSite));
 
-                    $requestedView = null;
-                    $children = $view->getChildren();
-                    foreach ($children as $childIndex => $child) {
-                        if (is_int(strpos($child->getTemplate(), $pageSite))) {
-                            $requestedView = $child; // Renamed "Child View" to "Requested View" for readability
-                            break;
-                        }
+        if (!method_exists($viewVars, 'offsetGet'))
+            return false;
+
+        $pageTemplate = $viewVars->offsetGet("pageTemplate");
+        /**
+         * Check for Twig Template ("TWG" template type)
+         */
+        if (!empty($pageTemplate->tpl_type) && $pageTemplate->tpl_type === self::TWIG_TEMPLATE) {
+            if ($this->renderer->canRender($view->getTemplate())) {
+                /**
+                 * Get the "Requested View" (i.e. module/controller/action)
+                 * using the PageTemplate's site module (hyphen-separated-format, ex. melis-demo-cms)
+                 */
+                $pageSite = preg_split(self::UPPERCASE, $pageTemplate->tpl_zf2_website_folder, -1, PREG_SPLIT_NO_EMPTY);
+                $pageSite = strtolower(implode(self::HYPHEN, $pageSite));
+    
+                $requestedView = null;
+                $children = $view->getChildren();
+                foreach ($children as $childIndex => $child) {
+                    if (is_int(strpos($child->getTemplate(), $pageSite))) {
+                        $requestedView = $child; // Renamed "Child View" to "Requested View" for readability
+                        break;
                     }
-
-                    if (!empty($requestedView) && $this->renderer->canRender($requestedView->getTemplate())) {
-                        /**
-                         * "The Swap"
-                         * - Instead of rendering the "defaultLayout", set this template as Twig's baseTemplate
-                         * which will be extended by the $requestedView; Ex. {% extends baseTemplate %}
-                         */
-                        $newView = new ViewModel();
-                        $newView->setVariable(self::DEFAULT_LAYOUT_VAR_NAME, $view->getTemplate());
-                        $newView->setVariables($viewVars);
-
-                        /**
-                         * Set the $requestedView (i.e. module/controller/action) as the model's template.
-                         * Including its controller variables.
-                         */
-                        $newView->setTemplate($requestedView->getTemplate());
-                        $newView->setVariables($requestedView->getVariables());
-
-                        $e->setModel($newView);
-                    }
-
-                    return $this->renderer;
                 }
+    
+                if (!empty($requestedView) && $this->renderer->canRender($requestedView->getTemplate())) {
+                    /**
+                     * "The Swap"
+                     * - Instead of rendering the "defaultLayout", set this template as Twig's baseTemplate
+                     * which will be extended by the $requestedView; Ex. {% extends baseTemplate %}
+                     */
+                    $newView = new ViewModel();
+                    $newView->setVariable(self::DEFAULT_LAYOUT_VAR_NAME, $view->getTemplate());
+                    $newView->setVariables($viewVars);
+    
+                    /**
+                     * Set the $requestedView (i.e. module/controller/action) as the model's template.
+                     * Including its controller variables.
+                     */
+                    $newView->setTemplate($requestedView->getTemplate());
+                    $newView->setVariables($requestedView->getVariables());
+    
+                    $e->setModel($newView);
+                }
+    
+                return $this->renderer;
             }
-        }
+    }
 
         return false;
     }

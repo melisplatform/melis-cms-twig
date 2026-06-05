@@ -28,7 +28,7 @@ class EnvironmentFactory
      * @param array|null $options
      * @return Environment
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var \MelisCmsTwig\ModuleOptions $options */
         $options = $container->get('MelisCmsTwig\ModuleOptions');

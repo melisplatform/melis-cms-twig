@@ -23,7 +23,7 @@ class MapLoaderFactory
      * @return MapLoader|object
      * @throws \Twig\Error\LoaderError
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /**
          * @var \MelisCmsTwig\MapLoader $templateMap

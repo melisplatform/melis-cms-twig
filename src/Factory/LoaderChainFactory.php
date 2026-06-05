@@ -22,7 +22,7 @@ class LoaderChainFactory
      * @param array|null $options
      * @return object|Twig_Loader_Chain
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var \MelisCmsTwig\ModuleOptions $options */
         $options = $container->get('MelisCmsTwig\ModuleOptions');

@@ -39,7 +39,7 @@ class Resolver implements ResolverInterface
      * @param RendererInterface|null $renderer
      * @return TemplateWrapper
      */
-    public function resolve($name, RendererInterface $renderer = null)
+    public function resolve($name, ?RendererInterface $renderer = null)
     {
         return $this->environment->load($name);
     }

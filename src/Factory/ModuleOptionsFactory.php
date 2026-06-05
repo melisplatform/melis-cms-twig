@@ -21,7 +21,7 @@ class ModuleOptionsFactory
      * @param array|null $options
      * @return ModuleOptions
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $container->get('Configuration');
         $options = empty($config['plugins']['MelisCmsTwig']['conf']) ? [] : $config['plugins']['MelisCmsTwig']['conf'];

@@ -27,7 +27,7 @@ class RendererFactory
      * @param array|null $options
      * @return Renderer
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /**
          * Register extensions

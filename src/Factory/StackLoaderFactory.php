@@ -23,7 +23,7 @@ class StackLoaderFactory
      * @param array|null $options
      * @return StackLoader
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var TemplatePathStack $zfTemplateStack */
         $zfTemplateStack = $container->get('ViewTemplatePathStack');

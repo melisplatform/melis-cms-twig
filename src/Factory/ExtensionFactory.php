@@ -22,7 +22,7 @@ class ExtensionFactory
      * @param array|null $options
      * @return Extension|object
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         return new Extension();
     }

@@ -22,7 +22,7 @@ class TwigResolverFactory
      * @param array|null $options
      * @return Resolver|object
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         return new Resolver($container->get('Twig_Environment'));
     }
